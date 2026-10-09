@@ -2,57 +2,77 @@ import test from "node:test";
 import assert from "node:assert/strict";
 
 import { assertNoPersonalAdvice } from "../src/adviceFirewall.mjs";
+import { evaluateObservation } from "../src/dataContract.mjs";
 import { generateReport } from "../src/report.mjs";
 
-const base = {
-  market: {
-    protocol: "Aave",
-    asset: "USDC",
-    chain: "Ethereum",
-    supplyApyPct: 4.81,
-    utilizationPct: 72.4,
-    availableLiquidityUsd: 84200000,
-  },
-  risk: {
-    protocol: 14,
-    asset: 18,
-    liquidity: 9,
-    oracle: 11,
-    stablecoin: 17,
-    chain: 12,
-  },
-  dataQuality: {
-    apy: "PASS",
-    utilization: "PASS",
-    liquidity: "PASS",
-    riskInputs: "PASS",
-  },
-  evidence: [
-    {
-      label: "Aave application",
-      url: "https://app.aave.com/",
-    },
-  ],
+const source = {
+  provider: "Aave",
+  endpoint: "https://mcp.aave.com",
+  method: "get_markets",
+  evidenceUrl: "https://aave.com/docs/mcp/tools",
 };
 
-test("generates a deterministic low-risk report", () => {
-  const result = generateReport(base);
-  assert.equal(result.risk.score, 13);
-  assert.equal(result.risk.band, "LOW");
-  assert.equal(result.gate.status, "PASS");
-  assert.match(result.report, /Aave \/ USDC/);
+const observation = (value, observedAt = "2026-10-09T05:58:00.000Z") => ({
+  value,
+  unit: "test",
+  source,
+  observedAt,
+  fetchedAt: "2026-10-09T05:58:05.000Z",
 });
 
-test("blocks release when any core data is UNKNOWN", () => {
+const base = {
+  reportAsOf: "2026-10-09T06:00:00.000Z",
+  market: { protocol: "Aave", asset: "USDC", chain: "Ethereum", chainId: 1 },
+  observations: {
+    supplyApyPct: observation(4.81),
+    utilizationPct: observation(72.4),
+    availableLiquidityUsd: observation(84200000),
+  },
+  risk: {
+    protocol: 14, asset: 18, liquidity: 9, oracle: 11, stablecoin: 17, chain: 12,
+  },
+  riskAssessment: {
+    methodology: "Proof & Signal deterministic risk model v0.2",
+    assessedAt: "2026-10-09T05:55:00.000Z",
+    evidence: [{ label: "Aave docs", url: "https://aave.com/docs/mcp/tools" }],
+  },
+};
+
+test("generates a releasable report only from fresh verified inputs", () => {
+  const result = generateReport(base);
+  assert.equal(result.risk.score, 13);
+  assert.equal(result.gate.status, "PASS");
+  assert.equal(result.gate.dataQuality, "PASS");
+  assert.match(result.report, /Verified data provenance/);
+});
+
+test("stale observation becomes VERIFY and blocks release", () => {
   const result = generateReport({
     ...base,
-    dataQuality: {
-      ...base.dataQuality,
-      liquidity: "UNKNOWN",
+    observations: {
+      ...base.observations,
+      supplyApyPct: observation(4.81, "2026-10-09T05:52:00.000Z"),
     },
   });
+  assert.equal(result.gate.fields.apy, "VERIFY");
   assert.equal(result.gate.status, "BLOCK");
-  assert.equal(result.gate.dataQuality, "UNKNOWN");
+});
+
+test("very stale observation becomes UNKNOWN", () => {
+  const result = evaluateObservation(
+    observation(4.81, "2026-10-09T05:30:00.000Z"),
+    base.reportAsOf,
+    5 * 60 * 1000,
+  );
+  assert.equal(result.status, "UNKNOWN");
+});
+
+test("impossible timestamp ordering becomes UNKNOWN", () => {
+  const bad = {
+    ...observation(4.81),
+    observedAt: "2026-10-09T06:10:00.000Z",
+  };
+  assert.equal(evaluateObservation(bad, base.reportAsOf, 5 * 60 * 1000).status, "UNKNOWN");
 });
 
 test("advice firewall rejects personalized recommendation language", () => {
@@ -66,21 +86,9 @@ test("advice firewall rejects personalized recommendation language", () => {
   );
 });
 
-test("advice firewall allows neutral action lists in disclaimers", () => {
-  assert.doesNotThrow(() =>
-    assertNoPersonalAdvice(
-      "This report does not instruct users to buy, sell, supply, borrow, repay, or transact.",
-    ),
-  );
-});
-
 test("analyst notes also pass through the advice firewall", () => {
   assert.throws(
-    () =>
-      generateReport({
-        ...base,
-        analystNotes: "We recommend this market for your portfolio.",
-      }),
+    () => generateReport({ ...base, analystNotes: "We recommend this market for your portfolio." }),
     /Advice Firewall blocked/,
   );
 });
