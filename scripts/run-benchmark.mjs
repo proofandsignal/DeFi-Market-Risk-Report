@@ -159,9 +159,9 @@ ${stressRows}
 
 ## Gate interpretation
 
-- `PASS_FULL`: >=20 live markets, Aave + Morpho + Compound + Spark adapters passed, applicable historical stress replays did not reduce measured pressure.
-- `PASS_PARTIAL_RPC`: >=20 live markets and Aave + Morpho passed; Compound/Spark remain runtime-gated by `ETH_RPC_URL`.
-- `BLOCK`: insufficient market coverage, a core adapter failed, or stress monotonicity failed.
+- PASS_FULL: >=20 live markets, Aave + Morpho + Compound + Spark adapters passed, applicable historical stress replays did not reduce measured pressure.
+- PASS_PARTIAL_RPC: >=20 live markets and Aave + Morpho passed; Compound/Spark remain runtime-gated by ETH_RPC_URL.
+- BLOCK: insufficient market coverage, a core adapter failed, or stress monotonicity failed.
 
 The next calibration step is to compare these pressure rankings against observed historical liquidity events and future realized outcomes instead of optimizing thresholds to fit one snapshot.
 `;
