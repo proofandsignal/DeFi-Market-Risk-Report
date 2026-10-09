@@ -1,0 +1,21 @@
+name: Live Aave Smoke
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - build/v0.2-verified-data-contract
+    paths:
+      - "src/adapters/aaveMcp.mjs"
+      - "scripts/fetch-aave.mjs"
+      - ".github/workflows/live-aave-smoke.yml"
+
+jobs:
+  live-aave:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - run: node scripts/fetch-aave.mjs
