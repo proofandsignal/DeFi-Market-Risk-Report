@@ -6,7 +6,7 @@ const BLOCKED_PATTERNS = [
   /\binvest\s+[€$£]?\d[\d,.]*\s+in\b/i,
   /\ballocate\s+\d{1,3}%\b/i,
   /\bbest investment for you\b/i,
-  /\bsell\b.*\brepay\b/i,
+  /^\s*sell\b[^.\n]{0,80}\band\s+repay\b/im,
 ];
 
 export function assertNoPersonalAdvice(text) {
