@@ -6,35 +6,17 @@ Independent, evidence-based risk intelligence for DeFi lending markets.
 
 This repository is the standalone **Proof & Signal DeFi Market Risk Report** product. It is intentionally isolated from other repositories.
 
-## v0.1
+## v0.2 — Verified Data Contract
 
-The first build is a deterministic report engine:
+The report engine no longer trusts a naked market number. Every live metric must include:
 
 ```
-JSON market input
-      ↓
-Input validation
-      ↓
-Data Quality Gate
-PASS / VERIFY / UNKNOWN
-      ↓
-Weighted Risk Engine
-      ↓
-Advice Firewall
-      ↓
-Release Gate
-      ↓
-Markdown Risk Report
+source → observed_at → fetched_at → freshness → evidence → Data Quality → Risk Report
 ```
 
-Risk dimensions currently include:
+Core states remain **PASS / VERIFY / UNKNOWN**, but v0.2 derives them from provenance and timestamps rather than accepting a manually supplied status.
 
-- protocol risk;
-- asset risk;
-- liquidity risk;
-- oracle risk;
-- stablecoin risk;
-- chain risk.
+The initial primary live-data source is the official Aave MCP endpoint.
 
 ## Run
 
@@ -43,25 +25,18 @@ Requires Node.js 20+.
 ```bash
 npm test
 npm run report
+npm run live:aave
 ```
 
-The sample command generates an Aave / USDC report from `examples/aave-usdc.json`.
+- `npm run report` validates the verified-data contract and generates the sample report.
+- `npm run live:aave` reads current Aave v3 USDC market data from the official Aave MCP endpoint.
 
-## Product boundary
+See [docs/VERIFIED_DATA_CONTRACT.md](docs/VERIFIED_DATA_CONTRACT.md) and [docs/PRODUCT_BOUNDARY.md](docs/PRODUCT_BOUNDARY.md).
 
-v0.1 is analytics and decision support. It does not custody assets, handle private keys, autonomously execute transactions, or generate personalized portfolio allocation instructions.
+## Release invariant
 
-See [docs/PRODUCT_BOUNDARY.md](docs/PRODUCT_BOUNDARY.md).
+A final/paid report must be blocked unless every core metric and risk input is **PASS**.
 
-## Next gates
+## Next gate
 
-1. Prove deterministic report generation and CI.
-2. Replace sample inputs with verified adapter output.
-3. Add evidence timestamps and freshness rules.
-4. Add historical APY/liquidity context.
-5. Add Scenario Engine.
-6. Test a paid €9–19 report with real users.
-
-## Status
-
-**v0.1 — build in progress**
+Normalize the live Aave response into the verified observation contract, persist an auditable raw snapshot, and generate the first report whose APY/utilization/liquidity values all come directly from the live adapter.
