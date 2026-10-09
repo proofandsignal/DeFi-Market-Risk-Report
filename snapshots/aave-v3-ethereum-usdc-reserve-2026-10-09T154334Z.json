@@ -1,0 +1,59 @@
+{
+  "fetchedAt": "2026-10-09T15:43:34.561Z",
+  "data": {
+    "data": {
+      "market": "0x87870Bca3F3fD6335C3F4ce8392D69350B4fA4E2",
+      "marketName": "AaveV3Ethereum",
+      "chainId": 1,
+      "symbol": "USDC",
+      "name": "USD Coin",
+      "token": "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48",
+      "decimals": 6,
+      "aToken": "0x98C23E9d8f34FEFb1B7BD6a91B7FF122F4e16F5c",
+      "vToken": "0x72E95b8931767C79bA4EeE721354d6E99a61D004",
+      "priceUsd": "0.9998651",
+      "priceSource": "Chainlink",
+      "oracle": "0x3f73F03aa83B2A48ed27E964eD0fDb590332095B",
+      "interestRateStrategy": "0x9ec6F08190DeA04A54f8Afc53Db96134e5E3FdFB",
+      "supplyApyPct": "4.09",
+      "borrowApyPct": "4.85",
+      "totalSupplied": {
+        "value": "2410239947.463254",
+        "usd": "2409914806.0943412070354"
+      },
+      "totalBorrowed": {
+        "value": "2270416672.651013",
+        "usd": "2270110393.4418723783463"
+      },
+      "availableLiquidity": {
+        "value": "139823273.207405",
+        "usd": "139804411.0478493210655"
+      },
+      "supplyCap": {
+        "value": "3000000000",
+        "usd": "2999595300"
+      },
+      "borrowCap": {
+        "value": "2700000000",
+        "usd": "2699635770"
+      },
+      "supplyCapReached": false,
+      "borrowCapReached": false,
+      "maxLtvPct": "75",
+      "liquidationThresholdPct": "78",
+      "liquidationBonusPct": "4.5",
+      "canBeCollateral": true,
+      "reserveFactorPct": "10",
+      "utilizationRatePct": "94.2",
+      "optimalUsageRatePct": "94",
+      "baseVariableBorrowRatePct": "0",
+      "variableRateSlope1Pct": "4.4",
+      "variableRateSlope2Pct": "10",
+      "flashLoanEnabled": true,
+      "permitSupported": true,
+      "acceptsNative": null,
+      "isFrozen": false,
+      "isPaused": false
+    }
+  }
+}
