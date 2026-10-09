@@ -14,6 +14,7 @@ on:
       - "src/adapters/ethRpc.mjs"
       - "scripts/run-benchmark.mjs"
       - "benchmarks/historical-stress-cases.json"
+      - "package.json"
       - ".github/workflows/live-benchmark.yml"
 
 jobs:
