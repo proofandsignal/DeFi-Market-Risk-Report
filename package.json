@@ -1,0 +1,14 @@
+{
+  "name": "@proofandsignal/defi-market-risk-report",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Deterministic DeFi market risk report generator",
+  "scripts": {
+    "test": "node --test",
+    "report": "node src/cli.mjs examples/aave-usdc.json"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}
