@@ -20,7 +20,7 @@ query BenchmarkMarkets($first: Int!, $chains: [Int!]) {
       lltv
       chain { id }
       oracle { address }
-      loanAsset { address symbol decimals }
+      loanAsset { address symbol decimals chain { id } }
       collateralAsset { address symbol decimals }
       state {
         supplyAssets
@@ -47,7 +47,7 @@ export function normalizeMorphoBenchmarkMarkets(payload, observedAt = new Date()
 
   return items.map((market) => {
     const state = market.state ?? {};
-    const chainId = Number(market.chain?.id ?? 1);
+    const chainId = Number(market.loanAsset?.chain?.id ?? 1);
     return createBenchmarkRecord({
       protocol: "Morpho",
       chain: chainName(chainId),
