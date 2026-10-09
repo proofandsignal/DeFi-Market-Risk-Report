@@ -1,0 +1,96 @@
+[
+  {
+    "id": "ETH_BLACK_THURSDAY_2020",
+    "eventDate": "2020-03-12",
+    "name": "Ethereum Black Thursday",
+    "appliesTo": { "chains": ["Ethereum"] },
+    "shock": {
+      "liquidityMultiplier": 0.55,
+      "utilizationAddPct": 12
+    },
+    "anchor": "ETH suffered a historic daily drawdown of about 43.2%. The replay parameters are calibration assumptions, not a reconstruction of every lending market.",
+    "evidence": [
+      {
+        "label": "CoinDesk Research Q1 2020 review",
+        "url": "https://downloads.coindesk.com/research/CoindeskQuarterlyReview_Q12020_CoindeskResearch.pdf"
+      }
+    ]
+  },
+  {
+    "id": "STETH_LIQUIDITY_DISCOUNT_2022",
+    "eventDate": "2022-06-10",
+    "name": "stETH liquidity discount",
+    "appliesTo": { "collateralAssets": ["stETH", "wstETH"] },
+    "shock": {
+      "liquidityMultiplier": 0.50,
+      "utilizationAddPct": 8
+    },
+    "anchor": "stETH traded around a 5% discount to ETH amid Curve-pool imbalance. Replay parameters model liquidity pressure rather than the exact historical pool path.",
+    "evidence": [
+      {
+        "label": "Coinbase Institutional — stETH price divergence",
+        "url": "https://www.coinbase.com/institutional/research-insights/research/monthly-outlook/liquid-staking-june-2022"
+      },
+      {
+        "label": "Crypto Briefing — stETH at 0.9474 ETH",
+        "url": "https://cryptobriefing.com/steth-eth-price-slips-amid-liquidity-issues/"
+      }
+    ]
+  },
+  {
+    "id": "USDC_SVB_DEPEG_2023",
+    "eventDate": "2023-03-11",
+    "name": "USDC SVB depeg",
+    "appliesTo": { "assets": ["USDC"] },
+    "shock": {
+      "liquidityMultiplier": 0.40,
+      "utilizationAddPct": 15
+    },
+    "anchor": "USDC fell as low as roughly $0.88 after disclosure of $3.3B of reserves at Silicon Valley Bank. The benchmark replays liquidity and utilization stress, not a price-PnL model.",
+    "evidence": [
+      {
+        "label": "Circle — $3.3B reserve risk removed",
+        "url": "https://www.circle.com/pressroom/3-3-billion-of-usdc-reserve-risk-removed-dollar-de-peg-closes"
+      },
+      {
+        "label": "The Block — USDC fell as low as $0.88",
+        "url": "https://www.theblock.co/news/markets/2023-03-11-usdc-and-dai-remain-at-about-0-90-following-circles-disclosure-of-funds-at-svb-218993"
+      }
+    ]
+  },
+  {
+    "id": "CRV_VYPER_LIQUIDITY_2023",
+    "eventDate": "2023-07-30",
+    "name": "Curve/Vyper collateral liquidity stress",
+    "appliesTo": { "collateralAssets": ["CRV"] },
+    "shock": {
+      "liquidityMultiplier": 0.35,
+      "utilizationAddPct": 10,
+      "lltvOverridePct": 0
+    },
+    "anchor": "Aave risk contributors recommended LTV=0 / freezing CRV after the Vyper exploit and deteriorating liquidity. LTV=0 is used here as an observed governance risk response.",
+    "evidence": [
+      {
+        "label": "Aave governance — post Vyper exploit CRV recommendations",
+        "url": "https://governance.aave.com/t/post-vyper-exploit-crv-market-update-and-recommendations/14214"
+      }
+    ]
+  },
+  {
+    "id": "MAI_DEPEG_2023",
+    "eventDate": "2023-07-22",
+    "name": "MAI stablecoin depeg",
+    "appliesTo": { "assets": ["MAI"] },
+    "shock": {
+      "liquidityMultiplier": 0.50,
+      "utilizationAddPct": 10
+    },
+    "anchor": "Chaos Labs reported MAI dropping to nearly $0.91 and proposed curtailing Aave exposure through caps and debt ceilings.",
+    "evidence": [
+      {
+        "label": "Aave governance — Chaos Labs July 2023 update",
+        "url": "https://governance.aave.com/t/chaos-labs-monthly-community-update/11174/8"
+      }
+    ]
+  }
+]
