@@ -52,7 +52,7 @@ npm run live:report
 - `npm run live:report` refreshes the Aave reserve facts before building a report.
 - deterministic CI never depends on an external network.
 
-See [docs/RISK_METHODOLOGY_V0.3.md](docs/RISK_METHODOLOGY_V0.3.md), [docs/VERIFIED_DATA_CONTRACT.md](docs/VERIFIED_DATA_CONTRACT.md), and [docs/PRODUCT_BOUNDARY.md](docs/PRODUCT_BOUNDARY.md).
+See [Risk Report #001](reports/RISK-REPORT-001-AAVE-USDC.md), [docs/RISK_METHODOLOGY_V0.3.md](docs/RISK_METHODOLOGY_V0.3.md), [docs/COMMERCIAL_BETA.md](docs/COMMERCIAL_BETA.md), [docs/VERIFIED_DATA_CONTRACT.md](docs/VERIFIED_DATA_CONTRACT.md), and [docs/PRODUCT_BOUNDARY.md](docs/PRODUCT_BOUNDARY.md).
 
 ## Commercial beta gate
 
