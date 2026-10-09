@@ -18,8 +18,9 @@ export const REQUIRED_DIMENSIONS = Object.freeze(
 );
 
 export function riskBand(score) {
-  if (score < 25) return "LOW";
-  if (score < 50) return "MODERATE";
-  if (score < 70) return "HIGH";
+  if (score < 20) return "LOW";
+  if (score < 40) return "MODERATE";
+  if (score < 60) return "ELEVATED";
+  if (score < 80) return "HIGH";
   return "CRITICAL";
 }

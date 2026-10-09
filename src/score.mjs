@@ -23,9 +23,11 @@ export function calculateDataQuality(input) {
 
 export function releaseGate(input) {
   const dataQuality = calculateDataQuality(input);
+  const methodologyReady = input.riskAssessment?.commercialGate?.status === "PASS_BETA";
   return {
-    status: dataQuality.overall === "PASS" ? "PASS" : "BLOCK",
+    status: dataQuality.overall === "PASS" && methodologyReady ? "PASS" : "BLOCK",
     dataQuality: dataQuality.overall,
     fields: dataQuality.fields,
+    commercialStatus: input.riskAssessment?.commercialGate?.status ?? "BLOCK",
   };
 }

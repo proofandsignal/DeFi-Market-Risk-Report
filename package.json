@@ -1,13 +1,14 @@
 {
   "name": "@proofandsignal/defi-market-risk-report",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "private": true,
   "type": "module",
-  "description": "Verified DeFi market risk report generator",
+  "description": "Evidence-backed DeFi market risk report generator",
   "scripts": {
     "test": "node --test",
-    "report": "node src/cli.mjs examples/aave-usdc.json",
-    "live:aave": "node scripts/fetch-aave.mjs"
+    "report": "node scripts/build-report-001.mjs",
+    "live:aave": "node scripts/fetch-aave.mjs",
+    "live:report": "node scripts/build-live-report.mjs"
   },
   "engines": {
     "node": ">=20"

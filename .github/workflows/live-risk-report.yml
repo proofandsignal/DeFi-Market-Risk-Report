@@ -1,0 +1,28 @@
+name: Live Risk Report
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - build/v0.3-evidence-risk-methodology
+    paths:
+      - "src/riskMethodology.mjs"
+      - "src/adapters/aaveMcp.mjs"
+      - "scripts/build-live-report.mjs"
+      - "evidence/**"
+      - ".github/workflows/live-risk-report.yml"
+
+jobs:
+  build-live-report:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - run: npm run live:report
+      - uses: actions/upload-artifact@v4
+        with:
+          name: risk-report-001-live
+          path: reports/generated/
+          if-no-files-found: error
