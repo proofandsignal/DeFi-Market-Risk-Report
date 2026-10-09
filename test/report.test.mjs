@@ -60,6 +60,18 @@ test("advice firewall rejects personalized recommendation language", () => {
     () => assertNoPersonalAdvice("You should deposit 15000 USDC into Aave."),
     /Advice Firewall blocked/,
   );
+  assert.throws(
+    () => assertNoPersonalAdvice("Sell ETH and repay the loan."),
+    /Advice Firewall blocked/,
+  );
+});
+
+test("advice firewall allows neutral action lists in disclaimers", () => {
+  assert.doesNotThrow(() =>
+    assertNoPersonalAdvice(
+      "This report does not instruct users to buy, sell, supply, borrow, repay, or transact.",
+    ),
+  );
 });
 
 test("analyst notes also pass through the advice firewall", () => {
