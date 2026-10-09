@@ -1,0 +1,11 @@
+prospect_id,prospect,segment,status,date_contacted,channel,response_class,payment_eur,requested_next_product,notes
+1,Stephen / DeFi Dojo,paid-test,NOT_CONTACTED,,,,0,,
+2,Ignas / DeFi Research,paid-test,NOT_CONTACTED,,,,0,,
+3,The DeFi Investor,paid-test,NOT_CONTACTED,,,,0,,
+4,Taiki Maeda / HFA Research,paid-test,NOT_CONTACTED,,,,0,,
+5,DeFi Dad / The Edge Podcast,paid-test,NOT_CONTACTED,,,,0,,
+6,Patrick Scott / Dynamo DeFi,paid-test,NOT_CONTACTED,,,,0,,
+7,Route 2 FI,paid-test,NOT_CONTACTED,,,,0,,
+8,blocmates,strategic-validation,NOT_CONTACTED,,,,0,,
+9,DeFi Saver,strategic-validation,NOT_CONTACTED,,,,0,,
+10,Stablewatch,strategic-validation,NOT_CONTACTED,,,,0,,
