@@ -1,0 +1,35 @@
+{
+  "market": {
+    "protocol": "Aave",
+    "asset": "USDC",
+    "chain": "Ethereum",
+    "supplyApyPct": 4.81,
+    "utilizationPct": 72.4,
+    "availableLiquidityUsd": 84200000
+  },
+  "risk": {
+    "protocol": 14,
+    "asset": 18,
+    "liquidity": 9,
+    "oracle": 11,
+    "stablecoin": 17,
+    "chain": 12
+  },
+  "dataQuality": {
+    "apy": "PASS",
+    "utilization": "PASS",
+    "liquidity": "PASS",
+    "riskInputs": "PASS"
+  },
+  "evidence": [
+    {
+      "label": "Aave application",
+      "url": "https://app.aave.com/"
+    },
+    {
+      "label": "Aave documentation",
+      "url": "https://aave.com/docs"
+    }
+  ],
+  "analystNotes": "The report separates observed market metrics from deterministic risk scoring and evidence."
+}
