@@ -19,3 +19,8 @@ jobs:
         with:
           node-version: 20
       - run: node scripts/fetch-aave.mjs
+      - uses: actions/upload-artifact@v4
+        with:
+          name: aave-v3-ethereum-usdc-live-snapshot
+          path: reports/generated/
+          if-no-files-found: error
