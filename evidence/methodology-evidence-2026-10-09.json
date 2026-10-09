@@ -2,7 +2,7 @@
   {
     "id": "aave_protocol_security",
     "label": "Aave protocol security controls",
-    "capturedAt": "2026-10-09T15:50:00.000Z",
+    "capturedAt": "2026-10-09T15:43:34.561Z",
     "maxAgeDays": 90,
     "confidence": 0.9,
     "sourceUrl": "https://www.aave.com/docs/resources/risks",
@@ -14,7 +14,7 @@
   {
     "id": "aave_governance_risk_controls",
     "label": "Aave dynamic reserve parameters and governance",
-    "capturedAt": "2026-10-09T15:50:00.000Z",
+    "capturedAt": "2026-10-09T15:43:34.561Z",
     "maxAgeDays": 90,
     "confidence": 0.9,
     "sourceUrl": "https://www.aave.com/docs/aave-v3/concepts/reserve",
@@ -26,7 +26,7 @@
   {
     "id": "usdc_reserve_transparency",
     "label": "Circle USDC reserve transparency",
-    "capturedAt": "2026-10-09T15:50:00.000Z",
+    "capturedAt": "2026-10-09T15:43:34.561Z",
     "maxAgeDays": 14,
     "confidence": 0.9,
     "sourceUrl": "https://www.circle.com/transparency",
@@ -42,7 +42,7 @@
   {
     "id": "usdc_control_surface",
     "label": "Circle EVM stablecoin administrative control surface",
-    "capturedAt": "2026-10-09T15:50:00.000Z",
+    "capturedAt": "2026-10-09T15:43:34.561Z",
     "maxAgeDays": 180,
     "confidence": 0.9,
     "sourceUrl": "https://github.com/circlefin/stablecoin-evm",
@@ -55,7 +55,7 @@
   {
     "id": "ethereum_consensus_security",
     "label": "Ethereum proof-of-stake finality security",
-    "capturedAt": "2026-10-09T15:50:00.000Z",
+    "capturedAt": "2026-10-09T15:43:34.561Z",
     "maxAgeDays": 180,
     "confidence": 0.9,
     "sourceUrl": "https://ethereum.org/developers/docs/consensus-mechanisms/pos/",
@@ -67,7 +67,7 @@
   {
     "id": "ethereum_finality_latency",
     "label": "Ethereum current finality latency",
-    "capturedAt": "2026-10-09T15:50:00.000Z",
+    "capturedAt": "2026-10-09T15:43:34.561Z",
     "maxAgeDays": 90,
     "confidence": 0.9,
     "sourceUrl": "https://ethereum.org/roadmap/single-slot-finality",
