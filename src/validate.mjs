@@ -29,6 +29,45 @@ function validateObservation(observation, field) {
   }
 }
 
+function validateRiskAssessment(assessment) {
+  if (!assessment?.assessedAt || !assessment?.methodology || !assessment?.version) {
+    throw new Error("riskAssessment methodology, version and assessedAt are required");
+  }
+  if (parseIsoTimestamp(assessment.assessedAt) === null) {
+    throw new Error("riskAssessment.assessedAt must be ISO-8601 compatible");
+  }
+
+  assertScore(assessment.overall?.score, "riskAssessment.overall.score");
+  assertFiniteNumber(assessment.overall?.confidence, "riskAssessment.overall.confidence");
+  if (assessment.overall.confidence < 0 || assessment.overall.confidence > 1) {
+    throw new Error("riskAssessment.overall.confidence must be between 0 and 1");
+  }
+
+  for (const dimension of REQUIRED_DIMENSIONS) {
+    const item = assessment.dimensions?.[dimension];
+    assertScore(item?.score, `riskAssessment.dimensions.${dimension}.score`);
+    assertFiniteNumber(item?.confidence, `riskAssessment.dimensions.${dimension}.confidence`);
+    if (!Array.isArray(item?.factors) || item.factors.length === 0) {
+      throw new Error(`riskAssessment.dimensions.${dimension}.factors are required`);
+    }
+  }
+
+  if (!Array.isArray(assessment.evidence) || assessment.evidence.length === 0) {
+    throw new Error("riskAssessment.evidence is required");
+  }
+  for (const [index, item] of assessment.evidence.entries()) {
+    if (!item?.label || !item?.url || !item?.capturedAt) {
+      throw new Error(`riskAssessment.evidence[${index}] requires label, url and capturedAt`);
+    }
+    try { new URL(item.url); }
+    catch { throw new Error(`riskAssessment.evidence[${index}].url must be valid`); }
+  }
+
+  if (!["PASS_BETA", "BLOCK"].includes(assessment.commercialGate?.status)) {
+    throw new Error("riskAssessment.commercialGate.status must be PASS_BETA or BLOCK");
+  }
+}
+
 export function validateInput(input) {
   if (!input || typeof input !== "object") throw new Error("input must be an object");
   if (!input.market?.protocol || !input.market?.asset || !input.market?.chain) {
@@ -47,14 +86,7 @@ export function validateInput(input) {
   if (utilization < 0 || utilization > 100) throw new Error("utilization must be between 0 and 100");
   if (liquidity < 0) throw new Error("available liquidity cannot be negative");
 
-  for (const dimension of REQUIRED_DIMENSIONS) assertScore(input.risk?.[dimension], `risk.${dimension}`);
-
-  if (!input.riskAssessment?.assessedAt || !Array.isArray(input.riskAssessment?.evidence)) {
-    throw new Error("riskAssessment.assessedAt and evidence are required");
-  }
-  if (parseIsoTimestamp(input.riskAssessment.assessedAt) === null) {
-    throw new Error("riskAssessment.assessedAt must be ISO-8601 compatible");
-  }
+  validateRiskAssessment(input.riskAssessment);
 
   if (input.analystNotes) assertNoPersonalAdvice(input.analystNotes);
   return input;
