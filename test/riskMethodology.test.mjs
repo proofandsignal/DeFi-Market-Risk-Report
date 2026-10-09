@@ -30,11 +30,11 @@ const normalized = normalizeAaveV3EthereumUsdcReserveDetails(snapshot);
 test("evidence record freshness is explicit", () => {
   const record = evidence.find((item) => item.id === "usdc_reserve_transparency");
   assert.equal(
-    evaluateEvidenceRecord(record, "2026-10-09T15:50:00.000Z").status,
+    evaluateEvidenceRecord(record, "2026-10-09T15:43:34.561Z").status,
     "PASS",
   );
   assert.equal(
-    evaluateEvidenceRecord(record, "2026-11-20T15:50:00.000Z").status,
+    evaluateEvidenceRecord(record, "2026-11-20T15:43:34.561Z").status,
     "UNKNOWN",
   );
 });
@@ -43,7 +43,7 @@ test("scores all six dimensions from evidence-backed factors", () => {
   const assessment = scoreEvidenceBackedRisk({
     reserve: normalized.riskFacts,
     evidenceRecords: evidence,
-    asOf: "2026-10-09T15:50:00.000Z",
+    asOf: "2026-10-09T15:43:34.561Z",
   });
 
   assert.deepEqual(Object.keys(assessment.dimensions), [
@@ -70,10 +70,10 @@ test("expired critical stablecoin evidence blocks commercial beta release", () =
   const assessment = scoreEvidenceBackedRisk({
     reserve: {
       ...normalized.riskFacts,
-      fetchedAt: "2026-11-20T15:50:00.000Z",
+      fetchedAt: "2026-11-20T15:43:34.561Z",
     },
     evidenceRecords: evidence,
-    asOf: "2026-11-20T15:50:00.000Z",
+    asOf: "2026-11-20T15:43:34.561Z",
   });
   assert.equal(assessment.dimensions.stablecoin.status, "UNKNOWN");
   assert.equal(assessment.commercialGate.status, "BLOCK");
