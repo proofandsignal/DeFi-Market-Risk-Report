@@ -1,0 +1,34 @@
+name: Live Calibration Benchmark
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - build/v0.4-calibration-stress-benchmark
+    paths:
+      - "src/benchmark/**"
+      - "src/adapters/aaveBenchmark.mjs"
+      - "src/adapters/morphoBenchmark.mjs"
+      - "src/adapters/compoundRpc.mjs"
+      - "src/adapters/sparkRpc.mjs"
+      - "src/adapters/ethRpc.mjs"
+      - "scripts/run-benchmark.mjs"
+      - "benchmarks/historical-stress-cases.json"
+      - ".github/workflows/live-benchmark.yml"
+
+jobs:
+  benchmark:
+    runs-on: ubuntu-latest
+    env:
+      ETH_RPC_URL: ${{ secrets.ETH_RPC_URL }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - run: npm run benchmark
+      - uses: actions/upload-artifact@v4
+        with:
+          name: calibration-benchmark-v0.4
+          path: benchmarks/generated/
+          if-no-files-found: error
