@@ -4,31 +4,39 @@ Independent, evidence-based risk intelligence for DeFi lending markets.
 
 > **Measure → Explain → Simulate → Let the user choose.**
 
-This repository is the standalone **Proof & Signal DeFi Market Risk Report** product. It is intentionally isolated from other repositories.
+## v0.3 — Evidence-Backed Risk Methodology
 
-## v0.2 — Verified Data Contract
+v0.3 removes manually assigned risk-dimension scores.
 
-Every live metric carries its own provenance:
+The engine now computes six dimensions from explicit factor rules and evidence:
 
 ```
-source → observed_at → fetched_at → freshness → evidence → Data Quality → Risk Report
+Verified market data
+      +
+Evidence registry
+      ↓
+Factor rules
+      ↓
+Protocol / Asset / Liquidity / Oracle / Stablecoin / Chain
+      ↓
+Dimension confidence + evidence status
+      ↓
+Overall risk score
+      ↓
+Commercial Beta Gate
+      ↓
+Risk Report #001
 ```
 
-Data Quality is derived by the engine rather than supplied manually.
+The score is a comparative heuristic, not a probability of loss or personalized recommendation.
 
-### Live Aave source
+### Current pilot market
 
-The official Aave MCP endpoint is used for Aave v3 market discovery. The adapter pins the initial product market to:
+**Aave V3 Ethereum Core / USDC**
 
-- chain: Ethereum (`1`);
-- market: `AaveV3Ethereum`;
-- market address: `0x87870Bca3F3fD6335C3F4ce8392D69350B4fA4E2`;
-- asset: USDC;
-- underlying token: `0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48`.
+The live Aave reserve-details feed provides the market-level risk facts, including liquidity, utilization, caps, collateral parameters, price source and oracle address.
 
-This matters because Aave currently exposes multiple Ethereum v3 markets; the report must not silently mix Core, Lido, EtherFi or Horizon observations.
-
-The first verified live snapshot captured on 2026-10-09 returned 4.13% supply APY and about $138.79M available liquidity for the pinned Core USDC reserve. Utilization is explicitly derived from the same upstream response using total supplied and available liquidity.
+Static evidence records currently use primary/official sources from Aave, Circle, Circle's public stablecoin contract repository and ethereum.org.
 
 ## Run
 
@@ -37,17 +45,23 @@ Requires Node.js 20+.
 ```bash
 npm test
 npm run report
-npm run live:aave
+npm run live:report
 ```
 
-`npm run live:aave` writes both the normalized observation bundle and the untouched upstream JSON-RPC response under `reports/generated/`. GitHub Actions uploads those files as a run artifact.
+- `npm run report` builds Risk Report #001 from the captured verified snapshot.
+- `npm run live:report` refreshes the Aave reserve facts before building a report.
+- deterministic CI never depends on an external network.
 
-See [docs/VERIFIED_DATA_CONTRACT.md](docs/VERIFIED_DATA_CONTRACT.md) and [docs/PRODUCT_BOUNDARY.md](docs/PRODUCT_BOUNDARY.md).
+See [docs/RISK_METHODOLOGY_V0.3.md](docs/RISK_METHODOLOGY_V0.3.md), [docs/VERIFIED_DATA_CONTRACT.md](docs/VERIFIED_DATA_CONTRACT.md), and [docs/PRODUCT_BOUNDARY.md](docs/PRODUCT_BOUNDARY.md).
 
-## Release invariant
+## Commercial beta gate
 
-A final report is blocked unless every core metric and risk input is **PASS**.
+A low-cost beta report can be marked `PASS_BETA` only when:
 
-## Commercial gate still open
+- verified market data is PASS;
+- every risk dimension has current evidence;
+- overall evidence confidence is at least 0.85;
+- no critical factor is UNKNOWN;
+- the beta-methodology disclosure is present.
 
-The market-data pipeline is now live and auditable. The current risk-dimension numbers are still prototype calibration values. They must be replaced by evidence-backed dimension methodology before a €9–19 report is sold as a finished risk rating.
+A beta pass is an evidence/completeness gate, not proof that the model predicts future losses.
