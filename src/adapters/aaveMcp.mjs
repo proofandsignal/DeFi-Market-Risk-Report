@@ -160,3 +160,113 @@ export async function fetchVerifiedAaveV3EthereumUsdc(options = {}) {
     raw,
   };
 }
+
+
+export async function fetchAaveV3EthereumUsdcReserveDetails(options = {}) {
+  return callAaveMcp(
+    "get_reserve_details",
+    {
+      version: "v3",
+      market: AAVE_V3_ETHEREUM_CORE_MARKET,
+      token: ETHEREUM_USDC,
+      chainId: 1,
+    },
+    options,
+  );
+}
+
+export function normalizeAaveV3EthereumUsdcReserveDetails(result) {
+  const reserve = result?.data?.data;
+  if (!reserve || reserve.marketName !== "AaveV3Ethereum" || reserve.chainId !== 1) {
+    throw new Error("Unexpected Aave reserve-details market");
+  }
+  if (reserve.market?.toLowerCase() !== AAVE_V3_ETHEREUM_CORE_MARKET.toLowerCase()) {
+    throw new Error("Unexpected Aave V3 Ethereum market address");
+  }
+  if (reserve.token?.toLowerCase() !== ETHEREUM_USDC.toLowerCase() || reserve.symbol !== "USDC") {
+    throw new Error("Unexpected Ethereum USDC reserve");
+  }
+
+  const totalSuppliedUsd = decimal(reserve.totalSupplied?.usd, "totalSupplied.usd");
+  const totalBorrowedUsd = decimal(reserve.totalBorrowed?.usd, "totalBorrowed.usd");
+  const availableLiquidityUsd = decimal(reserve.availableLiquidity?.usd, "availableLiquidity.usd");
+  const supplyCapUsd = decimal(reserve.supplyCap?.usd, "supplyCap.usd");
+  const borrowCapUsd = decimal(reserve.borrowCap?.usd, "borrowCap.usd");
+  const utilizationRatePct = decimal(reserve.utilizationRatePct, "utilizationRatePct");
+
+  const commonSource = {
+    provider: "Aave MCP",
+    endpoint: AAVE_MCP_ENDPOINT,
+    method: "get_reserve_details",
+    evidenceUrl: EVIDENCE_URL,
+  };
+
+  return {
+    reportAsOf: result.fetchedAt,
+    market: {
+      protocol: "Aave",
+      asset: "USDC",
+      chain: "Ethereum",
+      chainId: 1,
+      marketName: reserve.marketName,
+      marketAddress: reserve.market,
+      reserveAddress: reserve.token,
+    },
+    observations: {
+      supplyApyPct: {
+        value: decimal(reserve.supplyApyPct, "supplyApyPct"),
+        unit: "percent",
+        source: commonSource,
+        observedAt: result.fetchedAt,
+        fetchedAt: result.fetchedAt,
+      },
+      utilizationPct: {
+        value: utilizationRatePct,
+        unit: "percent",
+        source: commonSource,
+        observedAt: result.fetchedAt,
+        fetchedAt: result.fetchedAt,
+      },
+      availableLiquidityUsd: {
+        value: availableLiquidityUsd,
+        unit: "USD",
+        source: commonSource,
+        observedAt: result.fetchedAt,
+        fetchedAt: result.fetchedAt,
+      },
+    },
+    riskFacts: {
+      fetchedAt: result.fetchedAt,
+      priceUsd: decimal(reserve.priceUsd, "priceUsd"),
+      priceSource: reserve.priceSource,
+      oracle: reserve.oracle,
+      totalSuppliedUsd,
+      totalBorrowedUsd,
+      availableLiquidityUsd,
+      supplyCapUsd,
+      borrowCapUsd,
+      supplyCapReached: reserve.supplyCapReached === true,
+      borrowCapReached: reserve.borrowCapReached === true,
+      maxLtvPct: decimal(reserve.maxLtvPct, "maxLtvPct"),
+      liquidationThresholdPct: decimal(
+        reserve.liquidationThresholdPct,
+        "liquidationThresholdPct",
+      ),
+      liquidationBonusPct: decimal(reserve.liquidationBonusPct, "liquidationBonusPct"),
+      reserveFactorPct: decimal(reserve.reserveFactorPct, "reserveFactorPct"),
+      utilizationRatePct,
+      optimalUsageRatePct: decimal(reserve.optimalUsageRatePct, "optimalUsageRatePct"),
+      canSupply: reserve.isFrozen !== true && reserve.isPaused !== true,
+      isFrozen: reserve.isFrozen === true,
+      isPaused: reserve.isPaused === true,
+    },
+  };
+}
+
+export async function fetchVerifiedAaveV3EthereumUsdcReserveDetails(options = {}) {
+  const raw = await fetchAaveV3EthereumUsdcReserveDetails(options);
+  return {
+    normalized: normalizeAaveV3EthereumUsdcReserveDetails(raw),
+    raw,
+  };
+}
