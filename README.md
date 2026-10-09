@@ -61,3 +61,15 @@ See [Risk Report #001](reports/RISK-REPORT-001-AAVE-USDC.md), [Calibration Bench
 **Founding Beta price: €9.**
 
 A commercial beta report is informational decision support. It is not a probability of loss, credit rating, suitability assessment, or personalized recommendation.
+
+
+## Founding Beta validation
+
+The first commercial test is intentionally small:
+
+- price: **€9**;
+- target: 10 qualified prospects;
+- no mass outreach;
+- no new feature work before objections are recorded.
+
+See [Founding Beta 10](go-to-market/FOUNDING_BETA_10.md), [Outreach Playbook](go-to-market/OUTREACH_PLAYBOOK.md), [Offer](go-to-market/OFFER.md), and [Test Log](go-to-market/TEST_LOG.csv).
