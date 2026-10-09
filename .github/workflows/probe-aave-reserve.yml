@@ -1,0 +1,20 @@
+name: Probe Aave Reserve Details
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - build/v0.3-evidence-risk-methodology
+    paths:
+      - "scripts/probe-aave-reserve-details.mjs"
+      - ".github/workflows/probe-aave-reserve.yml"
+
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - run: node scripts/probe-aave-reserve-details.mjs
