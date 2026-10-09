@@ -4,39 +4,42 @@ Independent, evidence-based risk intelligence for DeFi lending markets.
 
 > **Measure → Explain → Simulate → Let the user choose.**
 
-## v0.3 — Evidence-Backed Risk Methodology
+## Product layers
 
-v0.3 removes manually assigned risk-dimension scores.
+### v0.3 — Evidence-Backed Risk Methodology
 
-The engine now computes six dimensions from explicit factor rules and evidence:
+The commercial beta report computes six dimensions from explicit factor rules and evidence:
+
+`Protocol / Asset / Liquidity / Oracle / Stablecoin / Chain`
+
+Risk Report #001 remains the Aave V3 Ethereum Core / USDC pilot.
+
+### v0.4 — Calibration & Stress Benchmark
+
+v0.4 adds a protocol-neutral diagnostic layer:
 
 ```
-Verified market data
-      +
-Evidence registry
-      ↓
-Factor rules
-      ↓
-Protocol / Asset / Liquidity / Oracle / Stablecoin / Chain
-      ↓
-Dimension confidence + evidence status
-      ↓
-Overall risk score
-      ↓
-Commercial Beta Gate
-      ↓
-Risk Report #001
+Aave + Morpho + Compound + Spark
+              ↓
+     normalized market records
+              ↓
+      Stress Pressure Score
+              ↓
+ historical stress replays
+              ↓
+ calibration / ranking diagnostics
 ```
 
-The score is a comparative heuristic, not a probability of loss or personalized recommendation.
+The benchmark score is deliberately separate from the commercial risk score. It exists to find ranking mistakes, threshold discontinuities and missing coverage before the methodology is scaled.
 
-### Current pilot market
+Live benchmark target: **20–50 markets**.
 
-**Aave V3 Ethereum Core / USDC**
+- Aave: official Aave MCP.
+- Morpho: official Morpho API.
+- Compound: direct Ethereum Comet reads via `ETH_RPC_URL`.
+- Spark: direct Ethereum ProtocolDataProvider reads via `ETH_RPC_URL`.
 
-The live Aave reserve-details feed provides the market-level risk facts, including liquidity, utilization, caps, collateral parameters, price source and oracle address.
-
-Static evidence records currently use primary/official sources from Aave, Circle, Circle's public stablecoin contract repository and ethereum.org.
+No RPC secret is committed to the repository.
 
 ## Run
 
@@ -46,22 +49,15 @@ Requires Node.js 20+.
 npm test
 npm run report
 npm run live:report
+npm run benchmark
 ```
 
-- `npm run report` builds Risk Report #001 from the captured verified snapshot.
-- `npm run live:report` refreshes the Aave reserve facts before building a report.
-- deterministic CI never depends on an external network.
+Without `ETH_RPC_URL`, the benchmark can pass as `PASS_PARTIAL_RPC` when Aave + Morpho provide at least 20 live markets and stress gates pass. With the RPC secret configured, Compound + Spark are included and the target becomes `PASS_FULL`.
 
-See [Risk Report #001](reports/RISK-REPORT-001-AAVE-USDC.md), [docs/RISK_METHODOLOGY_V0.3.md](docs/RISK_METHODOLOGY_V0.3.md), [docs/COMMERCIAL_BETA.md](docs/COMMERCIAL_BETA.md), [docs/VERIFIED_DATA_CONTRACT.md](docs/VERIFIED_DATA_CONTRACT.md), and [docs/PRODUCT_BOUNDARY.md](docs/PRODUCT_BOUNDARY.md).
+See [Risk Report #001](reports/RISK-REPORT-001-AAVE-USDC.md), [Calibration Benchmark v0.4](docs/CALIBRATION_BENCHMARK_V0.4.md), [Risk Methodology v0.3](docs/RISK_METHODOLOGY_V0.3.md), [Commercial Beta](docs/COMMERCIAL_BETA.md), [Verified Data Contract](docs/VERIFIED_DATA_CONTRACT.md), and [Product Boundary](docs/PRODUCT_BOUNDARY.md).
 
-## Commercial beta gate
+## Commercial beta
 
-A low-cost beta report can be marked `PASS_BETA` only when:
+**Founding Beta price: €9.**
 
-- verified market data is PASS;
-- every risk dimension has current evidence;
-- overall evidence confidence is at least 0.85;
-- no critical factor is UNKNOWN;
-- the beta-methodology disclosure is present.
-
-A beta pass is an evidence/completeness gate, not proof that the model predicts future losses.
+A commercial beta report is informational decision support. It is not a probability of loss, credit rating, suitability assessment, or personalized recommendation.
