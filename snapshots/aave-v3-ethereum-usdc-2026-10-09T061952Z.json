@@ -1,0 +1,38 @@
+{
+  "capturedAt": "2026-10-09T06:19:52.557Z",
+  "source": {
+    "provider": "Aave MCP",
+    "endpoint": "https://mcp.aave.com",
+    "method": "get_markets",
+    "arguments": {
+      "version": "v3",
+      "symbols": ["USDC"]
+    }
+  },
+  "selectedMarket": {
+    "market": "0x87870Bca3F3fD6335C3F4ce8392D69350B4fA4E2",
+    "chainId": 1,
+    "name": "AaveV3Ethereum"
+  },
+  "selectedReserve": {
+    "symbol": "USDC",
+    "underlyingToken": "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48",
+    "supplyApyPct": "4.13",
+    "totalSuppliedUsd": "2403934724.19110375703555",
+    "availableLiquidity": {
+      "value": "138818609.964666",
+      "usd": "138793546.2646368795537"
+    },
+    "canSupply": true,
+    "borrowApyPct": "4.89",
+    "canBorrow": true
+  },
+  "derived": {
+    "utilizationPct": 94.22640120516004,
+    "formula": "(totalSuppliedUsd - availableLiquidityUsd) / totalSuppliedUsd * 100"
+  },
+  "capture": {
+    "githubActionsRun": "https://github.com/proofandsignal/DeFi-Market-Risk-Report/actions/runs/37892856937",
+    "note": "Captured from the official Aave MCP response in the v0.2 live smoke run."
+  }
+}

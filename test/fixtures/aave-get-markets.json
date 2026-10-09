@@ -1,0 +1,32 @@
+{
+  "fetchedAt": "2026-10-09T06:19:52.557Z",
+  "data": {
+    "data": {
+      "v3": {
+        "chainsCovered": [1],
+        "markets": [
+          {
+            "market": "0x87870Bca3F3fD6335C3F4ce8392D69350B4fA4E2",
+            "chainId": 1,
+            "name": "AaveV3Ethereum",
+            "reserves": [
+              {
+                "symbol": "USDC",
+                "underlyingToken": "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48",
+                "supplyApyPct": "4.13",
+                "totalSuppliedUsd": "2403934724.19110375703555",
+                "canSupply": true,
+                "borrowApyPct": "4.89",
+                "availableLiquidity": {
+                  "value": "138818609.964666",
+                  "usd": "138793546.2646368795537"
+                },
+                "canBorrow": true
+              }
+            ]
+          }
+        ]
+      }
+    }
+  }
+}

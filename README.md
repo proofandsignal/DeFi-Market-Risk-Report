@@ -6,35 +6,29 @@ Independent, evidence-based risk intelligence for DeFi lending markets.
 
 This repository is the standalone **Proof & Signal DeFi Market Risk Report** product. It is intentionally isolated from other repositories.
 
-## v0.1
+## v0.2 — Verified Data Contract
 
-The first build is a deterministic report engine:
+Every live metric carries its own provenance:
 
 ```
-JSON market input
-      ↓
-Input validation
-      ↓
-Data Quality Gate
-PASS / VERIFY / UNKNOWN
-      ↓
-Weighted Risk Engine
-      ↓
-Advice Firewall
-      ↓
-Release Gate
-      ↓
-Markdown Risk Report
+source → observed_at → fetched_at → freshness → evidence → Data Quality → Risk Report
 ```
 
-Risk dimensions currently include:
+Data Quality is derived by the engine rather than supplied manually.
 
-- protocol risk;
-- asset risk;
-- liquidity risk;
-- oracle risk;
-- stablecoin risk;
-- chain risk.
+### Live Aave source
+
+The official Aave MCP endpoint is used for Aave v3 market discovery. The adapter pins the initial product market to:
+
+- chain: Ethereum (`1`);
+- market: `AaveV3Ethereum`;
+- market address: `0x87870Bca3F3fD6335C3F4ce8392D69350B4fA4E2`;
+- asset: USDC;
+- underlying token: `0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48`.
+
+This matters because Aave currently exposes multiple Ethereum v3 markets; the report must not silently mix Core, Lido, EtherFi or Horizon observations.
+
+The first verified live snapshot captured on 2026-10-09 returned 4.13% supply APY and about $138.79M available liquidity for the pinned Core USDC reserve. Utilization is explicitly derived from the same upstream response using total supplied and available liquidity.
 
 ## Run
 
@@ -43,25 +37,17 @@ Requires Node.js 20+.
 ```bash
 npm test
 npm run report
+npm run live:aave
 ```
 
-The sample command generates an Aave / USDC report from `examples/aave-usdc.json`.
+`npm run live:aave` writes both the normalized observation bundle and the untouched upstream JSON-RPC response under `reports/generated/`. GitHub Actions uploads those files as a run artifact.
 
-## Product boundary
+See [docs/VERIFIED_DATA_CONTRACT.md](docs/VERIFIED_DATA_CONTRACT.md) and [docs/PRODUCT_BOUNDARY.md](docs/PRODUCT_BOUNDARY.md).
 
-v0.1 is analytics and decision support. It does not custody assets, handle private keys, autonomously execute transactions, or generate personalized portfolio allocation instructions.
+## Release invariant
 
-See [docs/PRODUCT_BOUNDARY.md](docs/PRODUCT_BOUNDARY.md).
+A final report is blocked unless every core metric and risk input is **PASS**.
 
-## Next gates
+## Commercial gate still open
 
-1. Prove deterministic report generation and CI.
-2. Replace sample inputs with verified adapter output.
-3. Add evidence timestamps and freshness rules.
-4. Add historical APY/liquidity context.
-5. Add Scenario Engine.
-6. Test a paid €9–19 report with real users.
-
-## Status
-
-**v0.1 — build in progress**
+The market-data pipeline is now live and auditable. The current risk-dimension numbers are still prototype calibration values. They must be replaced by evidence-backed dimension methodology before a €9–19 report is sold as a finished risk rating.

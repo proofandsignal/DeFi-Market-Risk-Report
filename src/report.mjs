@@ -10,37 +10,41 @@ function money(value) {
     maximumFractionDigits: 0,
   }).format(value);
 }
-
-function pct(value) {
-  return `${value.toFixed(2)}%`;
-}
+function pct(value) { return `${value.toFixed(2)}%`; }
 
 export function generateReport(rawInput) {
   const input = validateInput(rawInput);
   const risk = calculateRisk(input.risk);
   const gate = releaseGate(input);
+  const obs = input.observations;
 
   const dimensions = REQUIRED_DIMENSIONS.map(
-    (dimension) =>
-      `| ${dimension[0].toUpperCase() + dimension.slice(1)} | ${input.risk[dimension]}/100 |`,
+    (dimension) => `| ${dimension[0].toUpperCase() + dimension.slice(1)} | ${input.risk[dimension]}/100 |`,
   ).join("\n");
 
-  const evidence = input.evidence
+  const provenanceRows = [
+    ["Supply APY", obs.supplyApyPct, gate.fields.apy],
+    ["Utilization", obs.utilizationPct, gate.fields.utilization],
+    ["Available liquidity", obs.availableLiquidityUsd, gate.fields.liquidity],
+  ].map(([label, item, status]) =>
+    `| ${label} | ${item.source.provider} / ${item.source.method} | ${item.observedAt} | ${item.fetchedAt} | ${status} |`
+  ).join("\n");
+
+  const evidence = input.riskAssessment.evidence
     .map((item, index) => `${index + 1}. [${item.label}](${item.url})`)
     .join("\n");
 
-  const note = input.analystNotes
-    ? `\n## Analyst notes\n\n${input.analystNotes}\n`
-    : "";
+  const note = input.analystNotes ? `\n## Analyst notes\n\n${input.analystNotes}\n` : "";
 
   const report = `# DeFi Market Risk Report
 
 ## ${input.market.protocol} / ${input.market.asset}
 
 - **Chain:** ${input.market.chain}
-- **Supply APY:** ${pct(input.market.supplyApyPct)}
-- **Utilization:** ${pct(input.market.utilizationPct)}
-- **Available liquidity:** ${money(input.market.availableLiquidityUsd)}
+- **Report as of:** ${input.reportAsOf}
+- **Supply APY:** ${pct(obs.supplyApyPct.value)}
+- **Utilization:** ${pct(obs.utilizationPct.value)}
+- **Available liquidity:** ${money(obs.availableLiquidityUsd.value)}
 - **Overall risk:** ${risk.score}/100 — **${risk.band}**
 - **Data Quality:** ${gate.dataQuality}
 - **Release Gate:** ${gate.status}
@@ -51,16 +55,14 @@ export function generateReport(rawInput) {
 | --- | ---: |
 ${dimensions}
 
-## Data quality
+## Verified data provenance
 
-| Input | Status |
-| --- | --- |
-| APY | ${input.dataQuality.apy} |
-| Utilization | ${input.dataQuality.utilization} |
-| Liquidity | ${input.dataQuality.liquidity} |
-| Risk inputs | ${input.dataQuality.riskInputs} |
+| Metric | Source | Observed at | Fetched at | Status |
+| --- | --- | --- | --- | --- |
+${provenanceRows}
+| Risk inputs | ${input.riskAssessment.methodology ?? "Risk assessment"} | ${input.riskAssessment.assessedAt} | ${input.riskAssessment.assessedAt} | ${gate.fields.riskInputs} |
 ${note}
-## Evidence
+## Risk evidence
 
 ${evidence}
 
@@ -72,9 +74,5 @@ This report presents market analytics, risk measurements and scenario-relevant e
 `;
 
   assertNoPersonalAdvice(report);
-  return {
-    report,
-    risk,
-    gate,
-  };
+  return { report, risk, gate };
 }
