@@ -1,0 +1,78 @@
+[
+  {
+    "id": "aave_protocol_security",
+    "label": "Aave protocol security controls",
+    "capturedAt": "2026-10-09T15:50:00.000Z",
+    "maxAgeDays": 90,
+    "confidence": 0.9,
+    "sourceUrl": "https://www.aave.com/docs/resources/risks",
+    "claims": {
+      "externalAudits": true,
+      "continuousBugBounty": true
+    }
+  },
+  {
+    "id": "aave_governance_risk_controls",
+    "label": "Aave dynamic reserve parameters and governance",
+    "capturedAt": "2026-10-09T15:50:00.000Z",
+    "maxAgeDays": 90,
+    "confidence": 0.9,
+    "sourceUrl": "https://www.aave.com/docs/aave-v3/concepts/reserve",
+    "claims": {
+      "dynamicReserveParameters": true,
+      "governanceVotes": true
+    }
+  },
+  {
+    "id": "usdc_reserve_transparency",
+    "label": "Circle USDC reserve transparency",
+    "capturedAt": "2026-10-09T15:50:00.000Z",
+    "maxAgeDays": 14,
+    "confidence": 0.9,
+    "sourceUrl": "https://www.circle.com/transparency",
+    "claims": {
+      "asOfDate": "2026-10-05",
+      "circulationUsd": 74100000000,
+      "reservesUsd": 74300000000,
+      "liquidReserveComposition": true,
+      "weeklyDisclosure": true,
+      "monthlyThirdPartyAssurance": true
+    }
+  },
+  {
+    "id": "usdc_control_surface",
+    "label": "Circle EVM stablecoin administrative control surface",
+    "capturedAt": "2026-10-09T15:50:00.000Z",
+    "maxAgeDays": 180,
+    "confidence": 0.9,
+    "sourceUrl": "https://github.com/circlefin/stablecoin-evm",
+    "claims": {
+      "upgradable": true,
+      "pausable": true,
+      "blacklistable": true
+    }
+  },
+  {
+    "id": "ethereum_consensus_security",
+    "label": "Ethereum proof-of-stake finality security",
+    "capturedAt": "2026-10-09T15:50:00.000Z",
+    "maxAgeDays": 180,
+    "confidence": 0.9,
+    "sourceUrl": "https://ethereum.org/developers/docs/consensus-mechanisms/pos/",
+    "claims": {
+      "economicFinalitySlashThresholdPct": 33,
+      "settlementLayer": "L1"
+    }
+  },
+  {
+    "id": "ethereum_finality_latency",
+    "label": "Ethereum current finality latency",
+    "capturedAt": "2026-10-09T15:50:00.000Z",
+    "maxAgeDays": 90,
+    "confidence": 0.9,
+    "sourceUrl": "https://ethereum.org/roadmap/single-slot-finality",
+    "claims": {
+      "finalityMinutes": 15
+    }
+  }
+]
