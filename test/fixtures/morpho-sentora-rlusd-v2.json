@@ -1,0 +1,67 @@
+{
+  "data": {
+    "vaultV2ByAddress": {
+      "address": "0x6dC58a0FdfC8D694e571DC59B9A52EEEa780E6bf",
+      "name": "Sentora RLUSD Main",
+      "symbol": "senRLUSDv2",
+      "totalAssets": "480000000",
+      "totalAssetsUsd": 480000000,
+      "totalSupply": "470000000",
+      "liquidity": "36000000",
+      "liquidityUsd": 36000000,
+      "idleAssets": "12000000",
+      "idleAssetsUsd": 12000000,
+      "avgNetApyExcludingRewards": 0.0278,
+      "avgNetApy": 0.0588,
+      "performanceFee": 0.1,
+      "managementFee": 0,
+      "maxRate": 0.2,
+      "rewards": [
+        {
+          "asset": {
+            "address": "0x8292Bb45bf1Ee4d140127049757C2E0fF06317eD",
+            "symbol": "RLUSD",
+            "chain": { "id": 1 }
+          },
+          "supplyApr": 0.031
+        }
+      ],
+      "owner": { "address": "0xowner" },
+      "curators": { "items": [{ "addresses": [{ "address": "0xcurator" }] }] },
+      "allocators": [
+        { "allocator": { "address": "0xallocator1" } },
+        { "allocator": { "address": "0xallocator2" } }
+      ],
+      "sentinels": [{ "sentinel": { "address": "0xsentinel" } }],
+      "timelocks": [
+        { "duration": 259200, "selector": "0x12345678", "functionName": "increaseAbsoluteCap" }
+      ],
+      "adapters": {
+        "items": [
+          {
+            "__typename": "MorphoMarketV1Adapter",
+            "address": "0xadapter",
+            "assets": "400000000",
+            "assetsUsd": 400000000,
+            "type": "MorphoMarketV1Adapter",
+            "positions": {
+              "items": [
+                {
+                  "market": {
+                    "marketId": "0xmarket1",
+                    "collateralAsset": { "address": "0xcollateral", "symbol": "kBTC" },
+                    "loanAsset": { "address": "0xloan", "symbol": "RLUSD" }
+                  },
+                  "state": {
+                    "supplyAssets": "220000000",
+                    "supplyAssetsUsd": 220000000
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    }
+  }
+}
