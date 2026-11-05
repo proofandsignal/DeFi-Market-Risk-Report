@@ -1,147 +1,230 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Proof & Signal — DeFi Market Risk Report</title>
-  <meta name="description" content="Evidence-backed DeFi market risk intelligence. Founding Beta report for Aave V3 Ethereum / USDC.">
-  <meta name="theme-color" content="#0b1020">
-  <style>
-    :root{--bg:#08101f;--panel:#101a2f;--panel2:#0d1628;--text:#eef3ff;--muted:#aab7d1;--line:#243252;--accent:#77a7ff;--accent2:#8ff0c8;--warn:#f5cc78;--max:1120px}
-    *{box-sizing:border-box}
-    html{scroll-behavior:smooth}
-    body{margin:0;background:linear-gradient(180deg,#07101f 0%,#0b1323 52%,#08101f 100%);color:var(--text);font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;line-height:1.6}
-    a{color:inherit}
-    .wrap{width:min(calc(100% - 40px),var(--max));margin:0 auto}
-    header{border-bottom:1px solid var(--line);background:rgba(8,16,31,.84);backdrop-filter:blur(12px);position:sticky;top:0;z-index:5}
-    nav{height:68px;display:flex;align-items:center;justify-content:space-between;gap:24px}
-    .brand{font-weight:760;letter-spacing:.02em;text-decoration:none}
-    .brand span{color:var(--accent)}
-    .navlinks{display:flex;gap:18px;align-items:center;font-size:14px;color:var(--muted)}
-    .navlinks a{text-decoration:none}
-    .hero{padding:86px 0 52px}
-    .eyebrow{display:inline-flex;gap:8px;align-items:center;padding:6px 10px;border:1px solid #35507e;border-radius:999px;color:#cfe0ff;background:#0d1b34;font-size:13px;font-weight:700}
-    h1{font-size:clamp(42px,7vw,76px);line-height:1.02;letter-spacing:-.045em;margin:20px 0 18px;max-width:900px}
-    .lead{font-size:clamp(18px,2.3vw,24px);color:var(--muted);max-width:820px;margin:0}
-    .hero-actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:30px}
-    .btn{display:inline-flex;align-items:center;justify-content:center;min-height:46px;padding:0 18px;border-radius:10px;border:1px solid var(--line);text-decoration:none;font-weight:750}
-    .primary{background:var(--text);color:#07101f;border-color:var(--text)}
-    .secondary{background:#101a2f;color:var(--text)}
-    .meta{display:flex;gap:18px;flex-wrap:wrap;margin-top:28px;color:var(--muted);font-size:14px}
-    section{padding:34px 0}
-    h2{font-size:clamp(28px,4vw,42px);letter-spacing:-.025em;margin:0 0 12px}
-    .section-copy{color:var(--muted);max-width:760px;margin:0 0 24px}
-    .grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
-    .card{background:linear-gradient(180deg,var(--panel),var(--panel2));border:1px solid var(--line);border-radius:16px;padding:22px}
-    .kicker{font-size:12px;text-transform:uppercase;letter-spacing:.13em;color:var(--muted);font-weight:800}
-    .metric{font-size:32px;font-weight:800;margin-top:8px;letter-spacing:-.035em}
-    .sub{color:var(--muted);font-size:14px}
-    .risk-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
-    .risk{display:flex;justify-content:space-between;gap:20px;align-items:center;padding:15px 16px;border:1px solid var(--line);border-radius:12px;background:#0c1527}
-    .risk strong{font-size:17px}
-    .band{color:var(--accent2);font-weight:800}
-    .band.elevated{color:var(--warn)}
-    .offer{display:grid;grid-template-columns:1.35fr .65fr;gap:18px;align-items:stretch}
-    .price{font-size:64px;line-height:1;font-weight:850;letter-spacing:-.05em;margin:10px 0}
-    ul{padding-left:20px;color:var(--muted)}
-    li+li{margin-top:7px}
-    .disclaimer{border-left:3px solid #44689f;padding:16px 18px;background:#0c1527;color:var(--muted);border-radius:0 10px 10px 0}
-    footer{padding:42px 0 56px;color:var(--muted);font-size:13px;border-top:1px solid var(--line);margin-top:36px}
-    @media (max-width:820px){.grid{grid-template-columns:1fr 1fr}.offer{grid-template-columns:1fr}.navlinks{display:none}.hero{padding-top:62px}}
-    @media (max-width:560px){.grid,.risk-grid{grid-template-columns:1fr}.wrap{width:min(calc(100% - 28px),var(--max))}h1{font-size:44px}.price{font-size:52px}}
-  </style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Proof & Signal — Evidence Pack #001 Preview</title>
+<meta name="description" content="Read-only evidence preview for Sentora RLUSD Main (V2): claims, timestamps, independent evidence, uncertainty and decision impact.">
+<meta name="theme-color" content="#07111f">
+<style>
+:root{
+  --bg:#07111f;--bg2:#0b1627;--panel:#101d31;--panel2:#0c1728;--line:#213451;
+  --text:#eef5ff;--muted:#91a5bf;--soft:#c4d4e8;--cyan:#70d7ff;--mint:#79e2b5;
+  --amber:#f3c66d;--red:#ff8e8e;--violet:#a99cff;--max:1240px
+}
+*{box-sizing:border-box}html{scroll-behavior:smooth}
+body{margin:0;background:
+radial-gradient(circle at 85% 8%,rgba(112,215,255,.10),transparent 26%),
+radial-gradient(circle at 16% 18%,rgba(169,156,255,.09),transparent 24%),
+linear-gradient(180deg,#06101d 0%,#091425 46%,#07111f 100%);
+color:var(--text);font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;line-height:1.55}
+a{color:inherit}.wrap{width:min(calc(100% - 40px),var(--max));margin:auto}
+header{position:sticky;top:0;z-index:20;background:rgba(6,16,29,.84);backdrop-filter:blur(16px);border-bottom:1px solid rgba(255,255,255,.07)}
+nav{height:72px;display:flex;align-items:center;justify-content:space-between;gap:20px}
+.brand{display:flex;align-items:center;gap:11px;text-decoration:none;font-weight:800;letter-spacing:.01em}
+.logo{width:36px;height:36px;border-radius:11px;display:grid;place-items:center;background:linear-gradient(145deg,#0d2037,#152945);border:1px solid #294867;box-shadow:inset 0 0 0 1px rgba(255,255,255,.02)}
+.logo svg{width:22px;height:22px}
+.brand small{display:block;color:var(--muted);font-weight:600;font-size:11px;letter-spacing:.08em;text-transform:uppercase;margin-top:1px}
+.navlinks{display:flex;gap:17px;color:var(--muted);font-size:13px}.navlinks a{text-decoration:none}
+.hero{padding:66px 0 34px;display:grid;grid-template-columns:1.15fr .85fr;gap:28px;align-items:stretch}
+.eyebrow,.status-chip{display:inline-flex;align-items:center;gap:8px;border:1px solid #2a4662;border-radius:999px;background:#0b1b2f;padding:7px 11px;font-size:12px;font-weight:800;letter-spacing:.03em}
+.dot{width:7px;height:7px;border-radius:50%;background:var(--mint);box-shadow:0 0 0 4px rgba(121,226,181,.08)}
+h1{font-size:clamp(42px,6.6vw,78px);line-height:.99;letter-spacing:-.05em;margin:18px 0}
+.lead{font-size:clamp(18px,2vw,23px);color:var(--soft);max-width:780px;margin:0}
+.hero-meta{display:flex;gap:10px;flex-wrap:wrap;margin-top:24px;color:var(--muted);font-size:12px}
+.hero-meta span{padding:7px 9px;border:1px solid var(--line);border-radius:9px;background:rgba(15,29,49,.75)}
+.cover{border:1px solid var(--line);border-radius:24px;background:linear-gradient(180deg,rgba(19,35,58,.96),rgba(9,19,34,.96));padding:24px;position:relative;overflow:hidden;min-height:360px}
+.cover:before{content:"";position:absolute;inset:-20%;background:radial-gradient(circle at 70% 30%,rgba(112,215,255,.17),transparent 20%),radial-gradient(circle at 40% 65%,rgba(169,156,255,.15),transparent 22%)}
+.cover-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.035) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.035) 1px,transparent 1px);background-size:34px 34px;mask-image:linear-gradient(to bottom,black,transparent)}
+.cover-content{position:relative;z-index:2;display:flex;flex-direction:column;height:100%;justify-content:space-between}
+.cover h3{font-size:26px;margin:6px 0 2px}.cover p{color:var(--muted);margin:0}
+.signal-line{height:130px;display:flex;align-items:end;gap:8px;margin:26px 0}
+.bar{flex:1;border-radius:8px 8px 3px 3px;background:linear-gradient(180deg,rgba(112,215,255,.95),rgba(112,215,255,.14));border:1px solid rgba(112,215,255,.18)}
+.cover-foot{display:flex;justify-content:space-between;color:var(--muted);font-size:12px}
+.section{padding:28px 0}.section-head{display:flex;justify-content:space-between;gap:20px;align-items:end;margin-bottom:16px}
+.section h2{font-size:clamp(28px,3.6vw,42px);letter-spacing:-.035em;margin:0}.section-copy{color:var(--muted);max-width:800px;margin:4px 0 0}
+.grid4{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}.grid3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}.grid2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.card{border:1px solid var(--line);border-radius:18px;background:linear-gradient(180deg,rgba(17,31,52,.95),rgba(11,23,40,.95));padding:18px}
+.kicker{text-transform:uppercase;letter-spacing:.13em;color:var(--muted);font-size:11px;font-weight:850}.metric{font-size:31px;font-weight:850;letter-spacing:-.04em;margin:6px 0}.sub{color:var(--muted);font-size:13px}
+.good{color:var(--mint)}.warn{color:var(--amber)}.bad{color:var(--red)}.info{color:var(--cyan)}
+.delta{display:grid;grid-template-columns:1fr auto 1fr;gap:12px;align-items:center}.delta .arrow{font-size:26px;color:var(--cyan)}
+.timeline{border-left:1px solid #31506f;margin:6px 0 0 7px;padding-left:18px}.timeline-item{position:relative;margin:0 0 17px}.timeline-item:before{content:"";position:absolute;left:-23px;top:7px;width:9px;height:9px;border-radius:50%;background:var(--cyan);box-shadow:0 0 0 4px rgba(112,215,255,.08)}.timeline-item strong{display:block}.timeline-item small{color:var(--muted)}
+.toolbar{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0 14px}.filter{border:1px solid var(--line);background:#0b182a;color:var(--soft);padding:8px 11px;border-radius:10px;font-weight:750;font-size:12px;cursor:pointer}.filter.active{border-color:#3c6689;background:#12243a;color:#fff}
+.table-wrap{overflow:auto;border:1px solid var(--line);border-radius:16px;background:#0b1728}
+table{width:100%;border-collapse:collapse;min-width:980px}th,td{padding:13px 14px;border-bottom:1px solid rgba(255,255,255,.055);vertical-align:top;text-align:left;font-size:13px}th{position:sticky;top:0;background:#0f1c2f;color:#a9bdd3;font-size:11px;text-transform:uppercase;letter-spacing:.08em;z-index:2}td{color:#d8e5f4}.muted{color:var(--muted)}
+.badge{display:inline-flex;align-items:center;border-radius:999px;padding:5px 8px;font-size:10px;font-weight:900;letter-spacing:.06em;border:1px solid}
+.badge.verified{color:#a5f3d1;border-color:#285d4e;background:#0e2a23}.badge.verify{color:#ffe0a1;border-color:#65502c;background:#2b2415}.badge.unknown{color:#ffb5b5;border-color:#694040;background:#2e1b1b}.badge.pending{color:#c9c1ff;border-color:#4d4678;background:#211f3a}
+.evidence-row[hidden]{display:none}.details-btn{border:0;background:none;color:var(--cyan);padding:0;font-weight:800;cursor:pointer;font-size:12px}.detail-panel{display:none;margin-top:9px;color:var(--muted);font-size:12px}.detail-panel.open{display:block}
+.stack{display:flex;height:16px;border-radius:999px;overflow:hidden;background:#0c1726;border:1px solid var(--line);margin:12px 0}.seg{height:100%}.seg.k{background:#78d8ff}.seg.w{background:#9b8df3}.seg.u{background:#6fd6ad}.seg.o{background:#5b708a}
+.legend{display:flex;gap:12px;flex-wrap:wrap;color:var(--muted);font-size:12px}.legend i{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:5px}
+.role{display:flex;justify-content:space-between;gap:16px;align-items:start;padding:14px 0;border-bottom:1px solid rgba(255,255,255,.055)}.role:last-child{border-bottom:0}.role strong{font-size:15px}.role span{color:var(--muted);font-size:12px;max-width:70%}
+.liquidity-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}.liq{padding:15px;border:1px solid var(--line);border-radius:14px;background:#0c182a}.liq strong{display:block;font-size:18px;margin-top:5px}.liq small{color:var(--muted)}
+.notice{border:1px solid #4a4575;border-radius:16px;padding:16px 18px;background:linear-gradient(180deg,rgba(42,37,77,.7),rgba(20,19,43,.65));display:flex;gap:15px;align-items:start}.notice strong{display:block}.notice p{margin:3px 0 0;color:#c4bee9;font-size:13px}
+.method{display:flex;gap:8px;flex-wrap:wrap}.method span{padding:9px 11px;border:1px solid var(--line);border-radius:11px;background:#0b1828;color:#c8d8e9;font-size:12px;font-weight:750}.method b{color:var(--cyan)}
+footer{border-top:1px solid var(--line);margin-top:30px;padding:34px 0 48px;color:var(--muted);font-size:12px}.foot{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap}
+@media(max-width:940px){.hero{grid-template-columns:1fr}.grid4{grid-template-columns:1fr 1fr}.grid3{grid-template-columns:1fr}.liquidity-grid{grid-template-columns:1fr 1fr}.cover{min-height:300px}}
+@media(max-width:620px){.wrap{width:min(calc(100% - 26px),var(--max))}.navlinks{display:none}.hero{padding-top:46px}.grid4,.grid2,.liquidity-grid{grid-template-columns:1fr}.delta{grid-template-columns:1fr}.delta .arrow{transform:rotate(90deg);text-align:center}.cover{min-height:280px}.metric{font-size:27px}.section-head{align-items:start;flex-direction:column}.role{flex-direction:column}.role span{max-width:100%}}
+</style>
 </head>
 <body>
-  <header>
-    <div class="wrap">
-      <nav>
-        <a class="brand" href="/">Proof <span>&amp;</span> Signal</a>
-        <div class="navlinks">
-          <a href="#sample">Sample</a>
-          <a href="#method">Method</a>
-          <a href="#beta">Founding Beta</a>
-        </div>
-      </nav>
+<header>
+  <div class="wrap"><nav>
+    <a class="brand" href="#top">
+      <span class="logo" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none"><path d="M4 17.5 8.5 13l3 3L20 7.5" stroke="#70d7ff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><circle cx="20" cy="7.5" r="2" fill="#79e2b5"/></svg>
+      </span>
+      <span>Proof &amp; Signal<small>Evidence Intelligence</small></span>
+    </a>
+    <div class="navlinks">
+      <a href="#summary">Summary</a><a href="#evidence">Evidence</a><a href="#yield">Yield</a><a href="#risk">Risk</a><a href="#liquidity">Liquidity</a>
     </div>
-  </header>
+  </nav></div>
+</header>
 
-  <main>
-    <div class="wrap">
-      <section class="hero">
-        <div class="eyebrow">Founding Beta · €9</div>
-        <h1>See the risk behind the yield.</h1>
-        <p class="lead">Independent, evidence-backed DeFi market risk intelligence that measures liquidity, protocol, asset, oracle, stablecoin and chain risk before you act.</p>
-        <div class="hero-actions">
-          <a class="btn primary" href="https://github.com/proofandsignal/DeFi-Market-Risk-Report/blob/main/reports/RISK-REPORT-001-AAVE-USDC.md" target="_blank" rel="noreferrer">View sample report</a>
-          <a class="btn secondary" href="mailto:proofandsignal@gmail.com?subject=DeFi%20Market%20Risk%20Report%20%E2%80%94%20Founding%20Beta">Request Founding Beta</a>
-        </div>
-        <div class="meta">
-          <span>Aave V3 · Ethereum · USDC pilot</span>
-          <span>Read-only analysis</span>
-          <span>No custody · No transaction execution</span>
-        </div>
-      </section>
-
-      <section id="sample">
-        <h2>Sample evidence snapshot</h2>
-        <p class="section-copy">Report #001 is a dated sample from 9 October 2026. It demonstrates the beta methodology and evidence structure; the figures below are not presented as current market conditions.</p>
-        <div class="grid">
-          <div class="card"><div class="kicker">Supply APY</div><div class="metric">4.10%</div><div class="sub">Observed in the sample snapshot</div></div>
-          <div class="card"><div class="kicker">Utilization</div><div class="metric">94.21%</div><div class="sub">Above the 94.00% optimal point</div></div>
-          <div class="card"><div class="kicker">Available liquidity</div><div class="metric">$139.7M</div><div class="sub">Approximate sample value</div></div>
-          <div class="card"><div class="kicker">Overall risk</div><div class="metric">23/100</div><div class="sub">MODERATE comparative heuristic</div></div>
-          <div class="card"><div class="kicker">Method confidence</div><div class="metric">96%</div><div class="sub">Evidence-weighted beta confidence</div></div>
-          <div class="card"><div class="kicker">Release gate</div><div class="metric">PASS_BETA</div><div class="sub">Evidence completeness, not a loss prediction</div></div>
-        </div>
-      </section>
-
-      <section id="method">
-        <h2>Six dimensions. Explicit evidence.</h2>
-        <p class="section-copy">Each dimension uses deterministic factor rules, evidence references, freshness states, confidence values and plain-language explanations.</p>
-        <div class="risk-grid">
-          <div class="risk"><strong>Protocol</strong><span class="band">8 · LOW</span></div>
-          <div class="risk"><strong>Asset</strong><span class="band">36 · MODERATE</span></div>
-          <div class="risk"><strong>Liquidity</strong><span class="band elevated">52 · ELEVATED</span></div>
-          <div class="risk"><strong>Oracle</strong><span class="band">9 · LOW</span></div>
-          <div class="risk"><strong>Stablecoin</strong><span class="band">18 · LOW</span></div>
-          <div class="risk"><strong>Chain</strong><span class="band">12 · LOW</span></div>
-        </div>
-        <div class="hero-actions">
-          <a class="btn secondary" href="https://github.com/proofandsignal/DeFi-Market-Risk-Report/blob/main/docs/RISK_METHODOLOGY_V0.3.md" target="_blank" rel="noreferrer">Read methodology</a>
-          <a class="btn secondary" href="https://github.com/proofandsignal/DeFi-Market-Risk-Report/blob/main/docs/PRODUCT_BOUNDARY.md" target="_blank" rel="noreferrer">Product boundary</a>
-        </div>
-      </section>
-
-      <section id="beta">
-        <div class="offer">
-          <div class="card">
-            <div class="kicker">What the beta report includes</div>
-            <h2>Evidence first, score second.</h2>
-            <ul>
-              <li>Verified market snapshot with APY, utilization and available liquidity</li>
-              <li>Six-dimension risk score with factor-level explanations</li>
-              <li>Evidence registry, provenance and methodology confidence</li>
-              <li>Explicit PASS / VERIFY / UNKNOWN data-quality gates</li>
-              <li>Beta-methodology disclosure and clear product boundaries</li>
-            </ul>
-          </div>
-          <div class="card">
-            <div class="kicker">Founding Beta</div>
-            <div class="price">€9</div>
-            <p class="sub">Low-cost validation offer for an evidence-backed DeFi Market Risk Report.</p>
-            <a class="btn primary" style="width:100%;margin-top:14px" href="mailto:proofandsignal@gmail.com?subject=DeFi%20Market%20Risk%20Report%20%E2%80%94%20Founding%20Beta">Request the beta</a>
-          </div>
-        </div>
-      </section>
-
-      <section>
-        <div class="disclaimer"><strong>Product boundary:</strong> this is informational decision support. The score is a comparative beta heuristic, not a probability of loss, credit rating, guarantee, suitability assessment or personalized investment recommendation. Proof &amp; Signal does not take custody, handle private keys, execute transactions or provide autonomous rebalancing through this product.</div>
-      </section>
+<main id="top">
+<div class="wrap">
+<section class="hero">
+  <div>
+    <span class="eyebrow"><span class="dot"></span> DEMO-001 · Read-only client preview</span>
+    <h1>Sentora RLUSD Main (V2)<br><span class="info">Evidence Pack #001</span></h1>
+    <p class="lead">A claim-by-claim view of yield durability, allocation concentration, governance control and exit liquidity — with uncertainty shown instead of hidden.</p>
+    <div class="hero-meta">
+      <span>Ethereum</span><span>Morpho Vault V2</span><span>Observation window: Oct 2026</span><span>Client preview · not a final forensic verdict</span>
     </div>
-  </main>
+  </div>
+  <aside class="cover" aria-label="Evidence signal overview">
+    <div class="cover-grid"></div><div class="cover-content">
+      <div><div class="kicker">Observed signal</div><h3>Reward continuation detected</h3><p>The 29 Oct boundary did not produce the expected incentive drop.</p></div>
+      <div class="signal-line" aria-hidden="true">
+        <span class="bar" style="height:44%"></span><span class="bar" style="height:51%"></span><span class="bar" style="height:47%"></span><span class="bar" style="height:63%"></span><span class="bar" style="height:66%"></span><span class="bar" style="height:71%"></span><span class="bar" style="height:78%"></span><span class="bar" style="height:75%"></span>
+      </div>
+      <div class="cover-foot"><span>PRE-29 → POST-29</span><span class="good">RENEWAL / CONTINUATION</span></div>
+    </div>
+  </aside>
+</section>
 
-  <footer>
-    <div class="wrap">Proof &amp; Signal · DeFi Market Risk Report · Measure → Explain → Simulate → Let the user choose.</div>
-  </footer>
+<section class="section" id="summary">
+  <div class="section-head"><div><div class="kicker">Executive evidence summary</div><h2>What changed after the boundary?</h2><p class="section-copy">The pre-event thesis expected a possible reward drop after 29 October. The observed outcome was different: rewards continued, headline yield remained incentive-supported, and liquidity stayed dynamic.</p></div></div>
+  <div class="grid4">
+    <div class="card"><div class="kicker">Post-29 outcome</div><div class="metric good">Continued</div><div class="sub">Rewards remained active after the stated boundary.</div></div>
+    <div class="card"><div class="kicker">Post-29 headline</div><div class="metric">~6.18%</div><div class="sub">Observed public snapshot, including rewards.</div></div>
+    <div class="card"><div class="kicker">Reward component</div><div class="metric">~2.96%</div><div class="sub">Still material to the headline rate.</div></div>
+    <div class="card"><div class="kicker">Decision status</div><div class="metric warn">VERIFY</div><div class="sub">Exact BitcoinYield API fetched_at remains unconfirmed.</div></div>
+  </div>
+</section>
+
+<section class="section" id="yield">
+  <div class="section-head"><div><div class="kicker">Yield &amp; rewards</div><h2>Before / after, not forecast / assumption.</h2></div></div>
+  <div class="grid2">
+    <div class="card delta">
+      <div><div class="kicker">Pre-29</div><div class="metric">~5.6–5.7%</div><div class="sub">~2.5 percentage points rewards</div></div>
+      <div class="arrow">→</div>
+      <div><div class="kicker">Post-29</div><div class="metric good">~6.18%</div><div class="sub">~2.96 percentage points rewards</div></div>
+    </div>
+    <div class="card">
+      <div class="kicker">Observed interpretation</div>
+      <div class="timeline">
+        <div class="timeline-item"><strong>Before 29 Oct</strong><small>Temporary incentive was material to headline yield.</small></div>
+        <div class="timeline-item"><strong>29 Oct boundary</strong><small>Scheduled campaign boundary reached.</small></div>
+        <div class="timeline-item"><strong>After boundary</strong><small>Reward continuation / renewal observed; expected drop did not occur.</small></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="evidence">
+  <div class="section-head"><div><div class="kicker">Evidence table</div><h2>Every claim carries a status.</h2><p class="section-copy">Filter the pack by evidence state. Expand a row to see what the status means and why it matters.</p></div></div>
+  <div class="toolbar" role="group" aria-label="Evidence status filters">
+    <button class="filter active" data-filter="all">All</button>
+    <button class="filter" data-filter="verified">Verified</button>
+    <button class="filter" data-filter="verify">Verify</button>
+    <button class="filter" data-filter="unknown">Unknown</button>
+    <button class="filter" data-filter="pending">Pending</button>
+  </div>
+  <div class="table-wrap">
+  <table>
+    <thead><tr><th>Claim</th><th>Observation</th><th>Independent evidence</th><th>Status</th><th>Delta</th><th>Decision impact</th></tr></thead>
+    <tbody>
+      <tr class="evidence-row" data-status="verified"><td>Vault identity is Sentora RLUSD Main (V2)</td><td>Contract-stable</td><td>Morpho vault metadata + independent vault tracking</td><td><span class="badge verified">VERIFIED</span></td><td>Identity consistent</td><td>Prevents comparison against the wrong RLUSD product.<div><button class="details-btn">Evidence note</button><div class="detail-panel">Vault: 0x6dC58a0FdfC8D694e571DC59B9A52EEEa780E6bf · Ethereum · Morpho Vault V2.</div></div></td></tr>
+      <tr class="evidence-row" data-status="verified"><td>Headline yield contains a material temporary reward component</td><td>Pre-29 Oct 2026</td><td>Cross-source reward split consistent</td><td><span class="badge verified">VERIFIED</span></td><td>~2.5 pp incentive-supported</td><td>Headline APY is not equivalent to persistent underlying yield.<div><button class="details-btn">Evidence note</button><div class="detail-panel">The pack separates underlying/base yield from incentive-supported yield rather than collapsing them into one figure.</div></div></td></tr>
+      <tr class="evidence-row" data-status="verified"><td>Rewards continued after the 29 Oct boundary</td><td>Post-29 public snapshots</td><td>BitcoinYield public value + independent Morpho-derived snapshot</td><td><span class="badge verified">VERIFIED</span></td><td>Expected drop did not occur</td><td>Observation beats forecast; campaign persistence must be measured, not assumed.<div><button class="details-btn">Evidence note</button><div class="detail-panel">Observed post-boundary headline ~6.18% with ~2.96% rewards.</div></div></td></tr>
+      <tr class="evidence-row" data-status="verify"><td>Exact BitcoinYield post-29 observation timestamp</td><td>API fetched_at</td><td>Direct endpoint not independently captured in current transport</td><td><span class="badge verify">VERIFY</span></td><td>Values align; exact timestamp unresolved</td><td>Prevents a false claim of exact timestamp matching.<div><button class="details-btn">Evidence note</button><div class="detail-panel">The preview can compare values, but does not claim exact API-time equality until fetched_at is captured.</div></div></td></tr>
+      <tr class="evidence-row" data-status="verified"><td>Allocation concentration is material</td><td>Latest detailed snapshot used in pack</td><td>Morpho-derived market breakdown</td><td><span class="badge verified">VERIFIED</span></td><td>Top exposures remain concentrated</td><td>Vault risk cannot be inferred from aggregate TVL alone.<div><button class="details-btn">Evidence note</button><div class="detail-panel">Approximate observed mix: 59.2% kBTC, 21.6% weETH, 11.2% USDe, with smaller residual exposures.</div></div></td></tr>
+      <tr class="evidence-row" data-status="verify"><td>Exact 30-day market-by-market movement</td><td>30-day window</td><td>Shorter-window movement exists; exact 30-day reconstruction incomplete</td><td><span class="badge verify">VERIFY</span></td><td>Do not relabel 24–28 days as 30</td><td>Preserves precision discipline.<div><button class="details-btn">Evidence note</button><div class="detail-panel">Observed movement may be shown, but exact 30-day language is withheld unless the full window is reconstructed.</div></div></td></tr>
+      <tr class="evidence-row" data-status="verified"><td>Liquidity and withdrawability are different metrics</td><td>Multiple snapshots</td><td>Morpho protocol liquidity vs independent withdrawable estimate</td><td><span class="badge verified">VERIFIED</span></td><td>Figures diverge materially</td><td>One timeless “liquidity” number can mislead users.<div><button class="details-btn">Evidence note</button><div class="detail-panel">The pack keeps idle assets, protocol liquidity, immediate withdrawability and stress exit capacity separate.</div></div></td></tr>
+      <tr class="evidence-row" data-status="pending"><td>5 Nov reward boundary follow-up</td><td>Next checkpoint</td><td>Not yet inserted into this demo build</td><td><span class="badge pending">PENDING</span></td><td>Await next observed state</td><td>Final Pack #001 should capture whether continuation persists again.<div><button class="details-btn">Evidence note</button><div class="detail-panel">This demo deliberately exposes the open checkpoint rather than pretending the final pack is complete.</div></div></td></tr>
+    </tbody>
+  </table>
+  </div>
+</section>
+
+<section class="section" id="risk">
+  <div class="section-head"><div><div class="kicker">Allocation &amp; concentration</div><h2>A large vault can still be concentrated.</h2><p class="section-copy">The allocation view is designed to answer “what am I actually exposed to?” rather than “how big is the vault?”</p></div></div>
+  <div class="grid2">
+    <div class="card">
+      <div class="kicker">Observed collateral mix</div>
+      <div class="stack" aria-label="Approximate allocation concentration">
+        <span class="seg k" style="width:59.2%"></span><span class="seg w" style="width:21.6%"></span><span class="seg u" style="width:11.2%"></span><span class="seg o" style="width:8%"></span>
+      </div>
+      <div class="legend"><span><i style="background:#78d8ff"></i>kBTC ~59.2%</span><span><i style="background:#9b8df3"></i>weETH ~21.6%</span><span><i style="background:#6fd6ad"></i>USDe ~11.2%</span><span><i style="background:#5b708a"></i>Other ~8%</span></div>
+      <p class="sub" style="margin-top:16px">Decision impact: collateral concentration, liquidation behavior, utilization and oracle design matter more than TVL alone.</p>
+    </div>
+    <div class="card">
+      <div class="kicker">Governance &amp; control surface</div>
+      <div class="role"><strong>Curator</strong><span>Strategic risk configuration, caps, adapters and fee-related controls; risk-increasing actions can be timelocked.</span></div>
+      <div class="role"><strong>Allocator</strong><span>Reallocates capital within enabled adapters and configured limits; explains why portfolio snapshots can age quickly.</span></div>
+      <div class="role"><strong>Sentinel</strong><span>Risk-reduction authority such as revoking pending actions, reducing caps and deallocating in emergencies.</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="liquidity">
+  <div class="section-head"><div><div class="kicker">Liquidity / exit stress</div><h2>Four concepts, not one number.</h2><p class="section-copy">The demo keeps liquidity semantics separate because each answers a different question.</p></div></div>
+  <div class="liquidity-grid">
+    <div class="liq"><div class="kicker">Idle assets</div><strong>Cash-like inside vault</strong><small>Directly undeployed assets at the observation time.</small></div>
+    <div class="liq"><div class="kicker">Protocol liquidity</div><strong>Morpho-reported</strong><small>Protocol metric; not automatically equal to immediate user exit.</small></div>
+    <div class="liq"><div class="kicker">Withdrawable now</div><strong>Independent estimate</strong><small>Observed exit capacity can vary materially through time.</small></div>
+    <div class="liq"><div class="kicker">Stress exit capacity</div><strong class="warn">VERIFY</strong><small>Must preserve methodology, timestamp and market-state assumptions.</small></div>
+  </div>
+  <div class="notice" style="margin-top:12px">
+    <div class="badge verify">WHY IT MATTERS</div>
+    <div><strong>A value can be numerically correct and still answer the wrong question.</strong><p>Pack #001 therefore reports each liquidity field with its own provenance and timestamp instead of presenting one timeless “withdrawable” figure.</p></div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="section-head"><div><div class="kicker">Method</div><h2>Evidence before certainty.</h2></div></div>
+  <div class="method">
+    <span><b>1</b> SOURCE CLAIM</span><span>→</span><span><b>2</b> OBSERVATION TIME</span><span>→</span><span><b>3</b> INDEPENDENT EVIDENCE</span><span>→</span><span><b>4</b> STATUS</span><span>→</span><span><b>5</b> DELTA</span><span>→</span><span><b>6</b> DECISION IMPACT</span>
+  </div>
+  <div class="notice" style="margin-top:16px">
+    <div class="badge pending">PACK STATUS</div>
+    <div><strong>Client preview, not final Pack #001.</strong><p>Exact BitcoinYield API fetched_at remains VERIFY. The next reward-boundary observation remains visible as an open checkpoint. No missing observation is converted into a confident claim.</p></div>
+  </div>
+</section>
+</div>
+</main>
+
+<footer><div class="wrap foot"><span>Proof &amp; Signal · Independent evidence and decision intelligence</span><span>DEMO-001 · Read-only · No custody · No transaction execution</span></div></footer>
+
+<script>
+document.querySelectorAll('.filter').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    document.querySelectorAll('.filter').forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+    const f=btn.dataset.filter;
+    document.querySelectorAll('.evidence-row').forEach(row=>{
+      row.hidden = f!=='all' && row.dataset.status!==f;
+    });
+  });
+});
+document.querySelectorAll('.details-btn').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    const panel=btn.nextElementSibling;
+    panel.classList.toggle('open');
+    btn.textContent=panel.classList.contains('open')?'Hide note':'Evidence note';
+  });
+});
+</script>
 </body>
 </html>
