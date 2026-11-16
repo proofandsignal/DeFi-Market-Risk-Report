@@ -1,0 +1,46 @@
+name: Demo QA Evidence
+
+on:
+  pull_request:
+    paths:
+      - '.github/workflows/demo-qa-evidence.yml'
+      - 'src/**'
+      - 'scripts/**'
+      - 'test/**'
+      - 'package.json'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  evidence:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: Record tested revision
+        run: |
+          mkdir -p qa-evidence
+          printf 'repository=%s\nsha=%s\nrun=%s\nevent=%s\n' "$GITHUB_REPOSITORY" "$GITHUB_SHA" "$GITHUB_RUN_ID" "$GITHUB_EVENT_NAME" > qa-evidence/manifest.txt
+      - name: Run unit tests
+        shell: bash
+        run: |
+          set -o pipefail
+          npm test 2>&1 | tee qa-evidence/tests.log
+      - name: Generate risk report
+        shell: bash
+        run: |
+          set -o pipefail
+          npm run report 2>&1 | tee qa-evidence/report.log
+      - name: Upload QA evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: defi-market-risk-qa-${{ github.run_id }}
+          path: qa-evidence/
+          retention-days: 14
+          if-no-files-found: error
