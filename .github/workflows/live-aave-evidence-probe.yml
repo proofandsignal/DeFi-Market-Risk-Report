@@ -50,6 +50,7 @@ jobs:
           if [ -d reports/generated ]; then
             cp -f reports/generated/RISK-REPORT-001-AAVE-USDC.md qa-evidence/live/ 2>/dev/null || true
             cp -f reports/generated/RISK-REPORT-001-AAVE-USDC.input.json qa-evidence/live/ 2>/dev/null || true
+            cp -f reports/generated/live-report-classification.json qa-evidence/live/ 2>/dev/null || true
             cp -f reports/generated/RISK-REPORT-001-AAVE-USDC.raw-aave.json qa-evidence/live/ 2>/dev/null || true
           fi
           exit "$code"
