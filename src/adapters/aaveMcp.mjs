@@ -1,4 +1,5 @@
 import { createHash } from "node:crypto";
+import { decimalToMinorUnits, compareUsdCents } from "../financialDecimal.mjs";
 
 export const AAVE_MCP_ENDPOINT = "https://mcp.aave.com";
 export const AAVE_V3_ETHEREUM_CORE_MARKET =
@@ -190,6 +191,8 @@ export function normalizeAaveV3EthereumUsdcReserveDetails(result) {
   const totalSuppliedUsd = decimal(reserve.totalSupplied?.usd, "totalSupplied.usd");
   const totalBorrowedUsd = decimal(reserve.totalBorrowed?.usd, "totalBorrowed.usd");
   const availableLiquidityUsd = decimal(reserve.availableLiquidity?.usd, "availableLiquidity.usd");
+  const availableLiquidityAtomicUnits = decimalToMinorUnits(reserve.availableLiquidity?.value, 6).toString();
+  const liquidityCentsReconciliation = compareUsdCents(reserve.availableLiquidity?.usd, availableLiquidityUsd);
   const supplyCapUsd = decimal(reserve.supplyCap?.usd, "supplyCap.usd");
   const borrowCapUsd = decimal(reserve.borrowCap?.usd, "borrowCap.usd");
   const utilizationRatePct = decimal(reserve.utilizationRatePct, "utilizationRatePct");
@@ -243,6 +246,8 @@ export function normalizeAaveV3EthereumUsdcReserveDetails(result) {
       totalSuppliedUsd,
       totalBorrowedUsd,
       availableLiquidityUsd,
+      availableLiquidityAtomicUnits,
+      liquidityCentsReconciliation,
       supplyCapUsd,
       borrowCapUsd,
       supplyCapReached: reserve.supplyCapReached === true,
