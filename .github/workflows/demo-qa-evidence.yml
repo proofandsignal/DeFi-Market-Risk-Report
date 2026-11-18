@@ -23,9 +23,11 @@ jobs:
         with:
           node-version: '20'
       - name: Record tested revision
+        env:
+          PR_HEAD_SHA: ${{ github.event.pull_request.head.sha }}
         run: |
           mkdir -p qa-evidence
-          printf 'repository=%s\nsha=%s\nrun=%s\nevent=%s\n' "$GITHUB_REPOSITORY" "$GITHUB_SHA" "$GITHUB_RUN_ID" "$GITHUB_EVENT_NAME" > qa-evidence/manifest.txt
+          printf 'repository=%s\ncheckout_sha=%s\npr_head_sha=%s\nrun=%s\nevent=%s\n' "$GITHUB_REPOSITORY" "$GITHUB_SHA" "$PR_HEAD_SHA" "$GITHUB_RUN_ID" "$GITHUB_EVENT_NAME" > qa-evidence/manifest.txt
       - name: Run unit tests
         shell: bash
         run: |
@@ -36,6 +38,32 @@ jobs:
         run: |
           set -o pipefail
           npm run report 2>&1 | tee qa-evidence/report.log
+      - name: Classify report provenance and release scope
+        shell: bash
+        run: |
+          node --input-type=module <<'NODE'
+          import { readFileSync, writeFileSync } from 'node:fs';
+          const script = readFileSync('scripts/build-report-001.mjs', 'utf8');
+          const match = script.match(/aave-v3-ethereum-usdc-reserve-(\\d{4}-\\d{2}-\\d{2})T(\\d{6})Z\\.json/);
+          if (!match) throw new Error('Cannot identify snapshot date from report builder');
+          const timestamp = match[1] + 'T' + match[2].slice(0,2) + ':' + match[2].slice(2,4) + ':' + match[2].slice(4,6) + 'Z';
+          const date = new Date(timestamp);
+          if (!Number.isFinite(date.getTime())) throw new Error('Invalid report snapshot timestamp');
+          const ageHours = (Date.now() - date.getTime()) / 3600000;
+          const result = {
+            report_type: 'HISTORICAL_SNAPSHOT',
+            snapshot_as_of: date.toISOString(),
+            run_time: new Date().toISOString(),
+            snapshot_age_hours: Math.round(ageHours * 100) / 100,
+            freshness: ageHours > 24 ? 'STALE_FOR_LIVE_DECISIONS' : 'RECENT_SNAPSHOT_NOT_LIVE',
+            pass_beta_scope: 'Evidence and methodology completeness at snapshot as-of time only',
+            live_market_validation: 'NOT_RUN',
+            commercial_release: 'HOLD',
+            browser_https_samsung_independent_qa: 'NOT_VERIFIED'
+          };
+          writeFileSync('qa-evidence/release-classification.json', JSON.stringify(result, null, 2) + '\\n');
+          console.log(JSON.stringify(result));
+          NODE
       - name: Upload QA evidence
         if: always()
         uses: actions/upload-artifact@v4
