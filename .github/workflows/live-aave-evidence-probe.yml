@@ -44,8 +44,10 @@ jobs:
         shell: bash
         run: |
           set -o pipefail
+          set +e # expected fail-closed BLOCK must not skip artifact copy
           timeout 120s npm run live:report > qa-evidence/live/report.log 2>&1
           code=$?
+          set -e
           printf 'live_report_exit_code=%s\n' "$code" >> qa-evidence/live/manifest.txt
           if [ -d reports/generated ]; then
             cp -f reports/generated/RISK-REPORT-001-AAVE-USDC.md qa-evidence/live/ 2>/dev/null || true
