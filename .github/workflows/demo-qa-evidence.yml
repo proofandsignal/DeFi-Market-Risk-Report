@@ -44,7 +44,7 @@ jobs:
           node --input-type=module <<'NODE'
           import { readFileSync, writeFileSync } from 'node:fs';
           const script = readFileSync('scripts/build-report-001.mjs', 'utf8');
-          const match = script.match(/aave-v3-ethereum-usdc-reserve-(\\d{4}-\\d{2}-\\d{2})T(\\d{6})Z\\.json/);
+          const match = script.match(/aave-v3-ethereum-usdc-reserve-(\d{4}-\d{2}-\d{2})T(\d{6})Z\.json/);
           if (!match) throw new Error('Cannot identify snapshot date from report builder');
           const timestamp = match[1] + 'T' + match[2].slice(0,2) + ':' + match[2].slice(2,4) + ':' + match[2].slice(4,6) + 'Z';
           const date = new Date(timestamp);
@@ -61,7 +61,7 @@ jobs:
             commercial_release: 'HOLD',
             browser_https_samsung_independent_qa: 'NOT_VERIFIED'
           };
-          writeFileSync('qa-evidence/release-classification.json', JSON.stringify(result, null, 2) + '\\n');
+          writeFileSync('qa-evidence/release-classification.json', JSON.stringify(result, null, 2) + '\n');
           console.log(JSON.stringify(result));
           NODE
       - name: Upload QA evidence
