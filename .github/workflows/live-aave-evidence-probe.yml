@@ -1,0 +1,77 @@
+name: Read-Only Live Aave Evidence Probe
+
+on:
+  pull_request:
+    paths:
+      - '.github/workflows/live-aave-evidence-probe.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  live-probe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: Capture provenance
+        env:
+          PR_HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+        run: |
+          mkdir -p qa-evidence/live
+          printf 'repository=%s\ncheckout_sha=%s\npr_head_sha=%s\nrun=%s\nevent=%s\n' "$GITHUB_REPOSITORY" "$GITHUB_SHA" "$PR_HEAD_SHA" "$GITHUB_RUN_ID" "$GITHUB_EVENT_NAME" > qa-evidence/live/manifest.txt
+      - name: Fetch read-only Aave MCP market observation
+        id: capture
+        continue-on-error: true
+        shell: bash
+        run: |
+          set -o pipefail
+          timeout 120s npm run live:aave > qa-evidence/live/fetch.log 2>&1
+          code=$?
+          printf 'live_aave_exit_code=%s\n' "$code" >> qa-evidence/live/manifest.txt
+          if [ -d reports/generated ]; then
+            cp -f reports/generated/aave-v3-ethereum-usdc.normalized.json qa-evidence/live/ 2>/dev/null || true
+            cp -f reports/generated/aave-v3-ethereum-usdc.raw.json qa-evidence/live/ 2>/dev/null || true
+          fi
+          exit "$code"
+      - name: Generate live beta report and capture failure safely
+        id: report
+        continue-on-error: true
+        shell: bash
+        run: |
+          set -o pipefail
+          timeout 120s npm run live:report > qa-evidence/live/report.log 2>&1
+          code=$?
+          printf 'live_report_exit_code=%s\n' "$code" >> qa-evidence/live/manifest.txt
+          if [ -d reports/generated ]; then
+            cp -f reports/generated/RISK-REPORT-001-AAVE-USDC.md qa-evidence/live/ 2>/dev/null || true
+            cp -f reports/generated/RISK-REPORT-001-AAVE-USDC.input.json qa-evidence/live/ 2>/dev/null || true
+            cp -f reports/generated/RISK-REPORT-001-AAVE-USDC.raw-aave.json qa-evidence/live/ 2>/dev/null || true
+          fi
+          exit "$code"
+      - name: Record cautious conclusions
+        if: always()
+        env:
+          CAPTURE: ${{ steps.capture.outcome }}
+          REPORT: ${{ steps.report.outcome }}
+        run: |
+          printf 'capture_outcome=%s\nreport_outcome=%s\nindependent_verification=NOT_RUN\nbrowser_qa=NOT_RUN\ncommercial_release=HOLD\n' "$CAPTURE" "$REPORT" >> qa-evidence/live/manifest.txt
+      - name: Upload evidence even if live source fails
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: aave-readonly-live-evidence-${{ github.run_id }}
+          path: qa-evidence/live/
+          if-no-files-found: error
+          retention-days: 7
+      - name: Fail closed if upstream evidence or live report failed
+        if: always()
+        env:
+          CAPTURE: ${{ steps.capture.outcome }}
+          REPORT: ${{ steps.report.outcome }}
+        run: |
+          test "$CAPTURE" = success && test "$REPORT" = success
